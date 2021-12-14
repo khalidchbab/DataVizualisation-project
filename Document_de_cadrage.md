@@ -34,7 +34,7 @@ https://www.nouvelobs.com/rue89/rue89-internet/20140830.RUE5372/grace-a-vos-donn
 
 Google Analytics : la service de Google permettant d'avoir des statistiques détailléees sur la fréquentation d’un site internet.
 
-## Organisation
+### Organisation
 
 Nous avons mis en place un groupe Facebook où nous pouvons rapidement converser. Lié à cela, nous avons un répertoire Github afin de centraliser les réalisation. Enfin, nous avons un drive partagé pour arranger les ressources.
 
