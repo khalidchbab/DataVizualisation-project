@@ -24,7 +24,9 @@ Les données étant personnelles, cette visualisation s'adresse principalement p
 ### Quelles sources de données ?
 Données personnelles récupérées grâce à l'extension de google chrome export history 
 
-** Travaux important liés au projet **
+
+### Travaux important liés au projet
+
 
 Visualisation de données temporelles personnelles :
 https://tel.archives-ouvertes.fr/tel-02007675/document
