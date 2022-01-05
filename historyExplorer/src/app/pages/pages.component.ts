@@ -13,7 +13,8 @@ export class PagesComponent {
       this.menu = [
         {
           title: "Accueil",
-          link: "/pages/dashboard",
+          link : "/pages/dashboard",
+          
         }
       ]
     }

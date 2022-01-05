@@ -13,6 +13,7 @@ export class DataService {
   constructor() {
   }
 
+  
   get_covid(){
     return d3.csv("https://www.data.gouv.fr/fr/datasets/r/63352e38-d353-4b54-bfd1-f1b3ee1cabd7")
   }
