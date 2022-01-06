@@ -1,26 +1,26 @@
 [
   {
-    "Framework": "Vue",
+    "Framework": "Google",
     "Stars": 166443,
     "Released": 2014
   },
   {
-    "Framework": "React",
+    "Framework": "Github",
     "Stars": 150793,
     "Released": 2013
   },
   {
-    "Framework": "Angular",
+    "Framework": "Linkedin",
     "Stars": 62342,
     "Released": 2016
   },
   {
-    "Framework": "Backbone",
+    "Framework": "Facebook",
     "Stars": 27647,
     "Released": 2010
   },
   {
-    "Framework": "Ember",
+    "Framework": "Netflix",
     "Stars": 21471,
     "Released": 2011
   }
