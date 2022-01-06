@@ -15,11 +15,11 @@ export class PieChartComponent implements OnInit {
   
   // d3.json(data_got).then(function (json)
   // private data = [
-  //   {"Framework": "Vue", "Stars": "166443", "Released": "2014"},
-  //   {"Framework": "React", "Stars": "150793", "Released": "2013"},
-  //   {"Framework": "Angular", "Stars": "62342", "Released": "2016"},
-  //   {"Framework": "Backbone", "Stars": "27647", "Released": "2010"},
-  //   {"Framework": "Ember", "Stars": "21471", "Released": "2011"},
+  //   {"webSite": "Vue", "Count": "166443", "Released": "2014"},
+  //   {"webSite": "React", "Count": "150793", "Released": "2013"},
+  //   {"webSite": "Angular", "Count": "62342", "Released": "2016"},
+  //   {"webSite": "Backbone", "Count": "27647", "Released": "2010"},
+  //   {"webSite": "Ember", "Count": "21471", "Released": "2011"},
   // ];
   private data: any ; 
 
@@ -59,13 +59,13 @@ export class PieChartComponent implements OnInit {
 
   private createColors(): void {
     this.colors = d3.scaleOrdinal()
-    .domain(this.data.map((d:any) => d.Stars.toString()))
+    .domain(this.data.map((d:any) => d.Count.toString()))
     .range(d3.schemePaired);
   }
 
   private drawChart(): void {
     // Compute the position of each group on the pie:
-    const pie = d3.pie<any>().value((d: any) => Number(d.Stars));
+    const pie = d3.pie<any>().value((d: any) => Number(d.Count));
 
     // Build the pie chart
     this.svg
@@ -94,7 +94,7 @@ export class PieChartComponent implements OnInit {
     .data(pie(this.data))
     .enter()
     .append('text')
-    .text((d: { data: { Framework: any; }; }) => d.data.Framework)
+    .text((d: { data: { webSite: any; }; }) => d.data.webSite)
     .attr("transform", (d: d3.DefaultArcObject) => "translate(" + labelLocation.centroid(d) + ")")
     .style("text-anchor", "middle")
     .style("font-size", 15);

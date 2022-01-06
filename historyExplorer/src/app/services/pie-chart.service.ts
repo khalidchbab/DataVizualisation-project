@@ -11,7 +11,7 @@ export class PieChartService {
    }
 
    get_test(){
-    return d3.csv("../../../assets/test.csv")
+    return d3.json("../../../assets/test_data.json")  // test_data.json
   }
 
 }
