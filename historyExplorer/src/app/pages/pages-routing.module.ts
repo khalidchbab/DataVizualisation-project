@@ -1,5 +1,7 @@
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { BubbleChartComponent } from './bubble-chart/bubble-chart.component';
+
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { PagesComponent } from "./pages.component";
@@ -16,6 +18,10 @@ const routes: Routes = [
       {
         path: "piechart",
         component: PieChartComponent,
+      },   
+      {
+        path: "bubblechart",
+        component: BubbleChartComponent,
       }
     ]
   }
