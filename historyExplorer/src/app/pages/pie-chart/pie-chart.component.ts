@@ -46,41 +46,17 @@ export class PieChartComponent {
             "translate(" + this.width / 2 + "," + this.height / 2 + ")"
           );
 
-
-        
         // this.colors = d3.scaleOrdinal()
         // .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
 	      // .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-        
-              this.colors = d3.scaleOrdinal()
-                      .domain(this.data.map((d:any) => d.Count.toString()))
-                      .range(d3.schemePaired);
+
+        this.colors = d3.scaleOrdinal()
+                        .domain(this.data.map((d:any) => d.Count.toString()))
+                        .range(d3.schemePaired);
 
         console.log(this.data);
         
-        // this.randomData() ; 
-
-        // this.change(this.data) ; 
-        
-        
-        this.change(this.data) ;
-        // this.run(this.data)
-        
-        // d3.select("#user1")
-        //   // .property('week')
-        //   // .selectAll('option')
-        //   .on("change", () => {
-        //           this.change(this.randomData())  ; 
-              
-        //   })
-
-        // d3.select("#user2")
-        //   // .property('week')
-        //   // .selectAll('option')
-        //   .on("change", () => {
-        //           this.change(this.randomData())  ; 
-              
-        //   })
+        this.change(this.data);
         
         d3.select("#time")
           .on("change", () => {
@@ -120,6 +96,12 @@ export class PieChartComponent {
     return labels.map(function(label : any){
       return { Framework: label, Count: Math.random() }
     });
+
+    // this.pieChartService.get_test().then((res: any) => {
+    //   this.data = res
+    // })
+
+    // return this.data ; 
   }
 
 
