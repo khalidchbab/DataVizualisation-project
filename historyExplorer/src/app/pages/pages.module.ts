@@ -5,6 +5,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { PagesRoutingModule } from "./pages-routing.module";
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { GraphChartComponent } from './graph-chart/graph-chart.component';
+import { BubbleChartComponent } from './bubble-chart/bubble-chart.component';
 
 
 
@@ -13,7 +14,8 @@ import { GraphChartComponent } from './graph-chart/graph-chart.component';
     PagesComponent,
     BarChartComponent,
     PieChartComponent,
-    GraphChartComponent
+    GraphChartComponent,
+    BubbleChartComponent
   ],
   imports: [
     PagesRoutingModule,
