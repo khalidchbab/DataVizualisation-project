@@ -14,4 +14,8 @@ export class PieChartService {
     return d3.json("../../../assets/pieChart_v1_data.json")  // test_data.json // pieChart_v1_data
   }
 
+  get_graph(){
+    return d3.json("../../../assets/graph.json") // miserables
+  }
+
 }

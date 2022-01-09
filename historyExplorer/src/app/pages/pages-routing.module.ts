@@ -3,6 +3,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { PagesComponent } from "./pages.component";
+import { GraphChartComponent } from './graph-chart/graph-chart.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: "piechart",
         component: PieChartComponent,
+      },
+      {
+        path: "graphchart",
+        component: GraphChartComponent,
       }
     ]
   }

@@ -35,8 +35,7 @@ export class PieChartComponent {
   constructor(private pieChartService:PieChartService) {
 
     this.pieChartService.get_test().then((res: any) => {
-    this.data = res
-
+    this.data = res 
         this.svg = d3.select("figure#pie")
                     .append("svg")
                     .attr("width", this.width)
@@ -47,12 +46,6 @@ export class PieChartComponent {
             "translate(" + this.width / 2 + "," + this.height / 2 + ")"
           );
 
-        this.svg.append("g")
-                .attr("class", "slices");
-        this.svg.append("g")
-                .attr("class", "labels");
-        this.svg.append("g")
-                .attr("class", "lines");
 
         
         // this.colors = d3.scaleOrdinal()
@@ -67,17 +60,47 @@ export class PieChartComponent {
         
         // this.randomData() ; 
 
-        this.change(this.data) ; 
+        // this.change(this.data) ; 
+        
+        
+        this.change(this.data) ;
+        // this.run(this.data)
+        
+        // d3.select("#user1")
+        //   // .property('week')
+        //   // .selectAll('option')
+        //   .on("change", () => {
+        //           this.change(this.randomData())  ; 
+              
+        //   })
 
-        d3.select(".change")
-              .on("click", () =>{
-                // console.log('Wesh');
-                this.change(this.randomData())  ; 
-        });       
+        // d3.select("#user2")
+        //   // .property('week')
+        //   // .selectAll('option')
+        //   .on("change", () => {
+        //           this.change(this.randomData())  ; 
+              
+        //   })
+        
+        d3.select("#time")
+          .on("change", () => {
+                  this.change(this.randomData())  ; 
+              
+          })
+        
+        var users = ['#user1', '#user2', '#user3']
 
-        }) 
+        users.forEach( el => {
+          d3.select(el)
+          .on("input", () => {
+                  this.change(this.randomData())  ; 
+              
+          })
+        })
 
         
+        }) 
+
         
 
   }
@@ -89,6 +112,7 @@ export class PieChartComponent {
   //     });
   // }
 
+
     randomData (){
     var labels = this.data.map((d:any) => d.Website);
     // console.log(labels);
@@ -98,7 +122,18 @@ export class PieChartComponent {
     });
   }
 
+
   change(data: any ){
+
+    // console.log('I\'m inside change function  ! ');
+    
+    
+    this.svg.append("g")
+    .attr("class", "slices");
+    this.svg.append("g")
+        .attr("class", "labels");
+    this.svg.append("g")
+        .attr("class", "lines");
 
     var pie = d3.pie()
                 .sort(null)
@@ -117,8 +152,9 @@ export class PieChartComponent {
     this.svg.attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
 
     // var key = function(d: any){  return d.data.value; };
+    // console.log(this.svg);
     
-
+  
     var slice = this.svg.select(".slices").selectAll("path.slice")
 		.data(pie(data));
     
@@ -126,14 +162,24 @@ export class PieChartComponent {
 		.insert("path")
 		.style("fill", (d: any) =>  { return this.colors(d.data.Website); }) 
 		.attr("class", "slice")
-    // .on('mouseover', function(d: any, i : any) {
-    //   d3.select(this).transition()
-    //        .duration(50)
-    //        .attr('opacity', '.85')
-    //        .on('mouseout', function (d: any, i: any) {
-    //   d3.select(this).transition()
-    //        .duration(50)
-    //        .attr('opacity', '1');
+    .on('mouseover', function(this : any, d: any, i : any) {
+          // console.log(this);
+          // tooltip.html(`Data: ${d.data.Website}`).style("visibility", "visible");
+          // d3.select(this)
+          //   .append('text')
+          // //   .attr("dy", ".35em")
+          //   .attr("dy", ".35em")
+          //   .text('Weeeeeeeeeeeeeeeeeeeeeeesh');
+
+          d3.select(this).transition()
+            .duration(50)
+            .attr('opacity', '1')  
+          }) 
+    .on('mouseout', function (this : any,d: any, i: any) {
+          d3.select(this).transition()
+            .duration(50)
+            .attr('opacity', '.75') 
+          }) ; 
 
 	slice		
 		.transition().duration(1000)
@@ -150,7 +196,11 @@ export class PieChartComponent {
 		.remove();
 
   /* ------- TEXT LABELS -------*/
-
+  
+  function midAngle(d : any){
+		return d.startAngle + (d.endAngle - d.startAngle)/2;
+	}             
+  
 	var text = this.svg.select(".labels").selectAll("text")
                     .data(pie(data));
 
@@ -161,23 +211,18 @@ export class PieChartComponent {
                         return d.data.Website;
                                               });
   
-
-  function midAngle(d : any){
-		return d.startAngle + (d.endAngle - d.startAngle)/2;
-	}             
-  
-  text.transition().duration(1000)
-		.attrTween("transform", (d: any)=>  {
-			this._current = this._current || d;
-			var interpolate = d3.interpolate(this._current, d);
-			this._current = interpolate(0);
-			return (t: any) => {
-				var d2 = interpolate(t);
-				var pos = outerArc.centroid(d2);
-				pos[0] = this.radius * (midAngle(d2) < Math.PI ? 1 : -1);
-				return "translate("+ pos +")";
-			};
-		})
+                    text.transition().duration(1000)
+                      .attrTween("transform", (d: any)=>  {
+                        this._current = this._current || d;
+                        var interpolate = d3.interpolate(this._current, d);
+                        this._current = interpolate(0);
+                        return (t: any) => {
+                          var d2 = interpolate(t);
+                          var pos = outerArc.centroid(d2);
+                          pos[0] = this.radius * (midAngle(d2) < Math.PI ? 1 : -1);
+                          return "translate("+ pos +")";
+                        };
+                      })
     .styleTween("text-anchor", (d: any) => {
 			this._current = this._current || d;
 			var interpolate = d3.interpolate(this._current, d);
@@ -252,6 +297,15 @@ export class PieChartComponent {
 	
 	polyline.exit()
 		.remove();
+
+    //  d3.select("#time")
+    //       // .property('week')
+    //       // .selectAll('option')
+    //       .on("change", () => {
+    //               this.change(this.randomData())  ; 
+              
+    //       })
+
   }
 
   
