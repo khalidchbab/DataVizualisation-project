@@ -37,6 +37,7 @@ export class GraphChartComponent {
 
       this.color = d3.scaleOrdinal(d3.schemeCategory10);
       this.drawGraph(this.graph)
+      // this.cleanSVG()
 
       // this.color = this.getRandomColor(6)
       // console.log(this.color);
@@ -50,17 +51,24 @@ export class GraphChartComponent {
       // var legendAux = []  
   
       this.svg.append('g')
-              .selectAll("circle")
+              .selectAll('rect')
+              // .selectAll("circle")
               .data(legendAux)
               .enter()
-              .append("circle")
-              .attr("cx", 5)
-              .attr("cy",(d: any) => { return ((legendAux.indexOf(d) + 1)*20) +30; })
-              .attr("r", 5)
+              // .append("circle")
+              .append("rect")
+              // .attr("cx", 5)
+              // .attr("cy",(d: any) => { return ((legendAux.indexOf(d) + 1)*20) +30; })
+              // .attr("r", 5)
+              .attr("x", 0)
+              .attr("y", (d: any) => { return ((legendAux.indexOf(d) + 1)*20) + 25; })
+              .attr("width", 10)
+              .attr("height", 10)
               .style("fill", (d: any) => { return this.color(legendAux.indexOf(d) + 1); })
 
       this.svg.append('g')
-              .selectAll("circle")
+              // .selectAll("circle")
+              .selectAll('rect')
               .data(legendAux)
               .enter()
               .append("text")
@@ -70,16 +78,26 @@ export class GraphChartComponent {
               .style("font-size", "15px")
               .attr("alignment-baseline","middle")
 
-      // console.log(this.graph.nodes);
-      // console.log(this.randomData())
+              var users = ['#user1', '#user2', '#user3']
 
-      // d3.select(".check")
-      //         .on("click", () =>{
-      //           // console.log('Wesh');
-      //           this.drawGraph(this.randomData())  ; 
-      //   }); 
+              users.forEach( el => {
+                // d3.select("figure#graph").exit().remove();
+                
+                d3.select(el)
+                .on("change", () => {
+                  this.cleanSVG() ; 
+                  this.drawGraph(this.randomData())  ; 
+                })
+              })
+
     })
 
+  }
+
+
+  cleanSVG(){
+    d3.selectAll('circle').remove() ; 
+    d3.selectAll('line').remove() ; 
   }
 
   getUnique(graphNodes: any){
@@ -129,7 +147,7 @@ export class GraphChartComponent {
             .force("center", d3.forceCenter(this.width / 2, this.height / 2));
       // console.log(graph);
       
-        this.link = this.svg.append("g")
+        var link = this.svg.append("g")
         // .attr("class", "links")
         .attr("stroke", "#000")
         // .attr("stroke-opacity", 0.6)
@@ -138,9 +156,9 @@ export class GraphChartComponent {
         .enter().append("line")
         .attr("stroke-width", function(d: any) { return (d.value/10); })
         // .attr("stroke-width", function(d: any) { return Math.sqrt(d.value); });
-
         
-        this.node =  this.svg.append("g")
+        
+        var node =  this.svg.append("g")
         // .attr("class", "nodes")
         .attr("stroke", "#fff")
         .attr("stroke-opacity", "1.5px")
@@ -158,7 +176,7 @@ export class GraphChartComponent {
         })
         .on("drag", (event, d: any) => {
           d.fx = d3.pointer(event)[0] - 3*(this.width/5)
-          d.fy = d3.pointer(event)[1] - 130
+          d.fy = d3.pointer(event)[1] - 6*(this.height/7)
           this.simulation.alphaTarget(0.3).restart();
           
         })
@@ -169,7 +187,7 @@ export class GraphChartComponent {
           // this.draggedNode = null;
         }))
         // .on('mouseover', (d: any) => {
-        //       console.log(this.node);
+        //       console.log(node);
               
         //       d3.select("circle").transition()
         //       .duration(750)
@@ -183,46 +201,31 @@ export class GraphChartComponent {
         
         
 
-        this.node.append("title")
+        node.append("title")
         .text(function(d: any) { return d.id; });
+
 
         this.simulation
         .nodes(graph.nodes)
         .on("tick", () => {
-          this.link
+          link
               .attr("x1", function(d: any) { return d.source.x; })
               .attr("y1", function(d: any) { return d.source.y; })
               .attr("x2", function(d: any) { return d.target.x; })
               .attr("y2", function(d: any) { return d.target.y; });
       
-          this.node
+          node
               .attr("cx", function(d: any) { return d.x; })
               .attr("cy", function(d: any) { return d.y; });
         });
 
         this.simulation.force("link")
         .links(graph.links);
+        
+        // d3.selectAll("line")
+
+
    }
 
-  //  ticked() 
-
-//  dragstarted(d: any) {
-//   // if (!d3.event.active) 
-//   this.simulation.alphaTarget(0.3).restart();
-//   d.fx = d.x;
-//   d.fy = d.y;
-// }
-
-//  dragged(d: any) {
-//   // d.fx = d3.event.x;
-//   // d.fy = d3.event.y;
-// }
-
-//  dragended(d: any) {
-//   // if (!d3.event.active) 
-//   this.simulation.alphaTarget(0);
-//   d.fx = null;
-//   d.fy = null;
-// }
 
 }
