@@ -193,6 +193,16 @@ export class GraphChartComponent {
           //   .duration(750)
           // .attr("r", 16);
       })
+      .on("mousemove",(event: any, d: any) =>{
+        tooltip
+          .style("top", (event.pageY-10)+"px")
+          .style("left",(event.pageX+10)+"px");
+      })
+      .on("mouseout", (event :any, d:any) =>{
+        tooltip.style('visibility', 'hidden')
+        d3.select(event.currentTarget).transition()
+          .duration(1000)
+      })
     // .attr("stroke-width", function(d: any) { return Math.sqrt(d.value); });
 
     var node = this.svg.append("g")
@@ -231,7 +241,7 @@ export class GraphChartComponent {
         tooltip.html(`Website: ${d.id}`).style("visibility", "visible");
         d3.select(event.currentTarget).transition()
           .duration(50)
-          .attr('opacity', '.75')
+          // .attr('opacity', '.75')
           // d3.select("circle").transition()
           //   .duration(750)
           .attr("r", 16);
