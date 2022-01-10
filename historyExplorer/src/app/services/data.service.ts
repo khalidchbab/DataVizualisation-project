@@ -14,4 +14,8 @@ export class DataService {
   getHistory(){
     return d3.csv("../../../assets/_files/idk.csv")
   }
+
+  getRealHistory(){
+    return d3.csv("../../../assets/_files/myHistoryEdited.csv")
+  }
 }

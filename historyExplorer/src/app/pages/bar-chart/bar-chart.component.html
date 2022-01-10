@@ -1,7 +1,16 @@
 <div id="divSlider">
-    <h2>Classement des sites</h2>
-    <figure id="bar"></figure>
+  <h2>Classement des sites</h2>
+  <form [formGroup]="range" (ngModelChange)="changed()" style="text-align: end;">
+    <mat-form-field appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="end" placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  </form>
+  <figure id="bar"></figure>
+  <div class="tootltipEmp"></div>
 </div>
-<div>
-    <h3>Khalid CHBAB - p2112712 - M2 IA</h3>
-</div>    
