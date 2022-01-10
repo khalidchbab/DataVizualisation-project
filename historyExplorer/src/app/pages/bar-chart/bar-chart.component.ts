@@ -188,7 +188,7 @@ export class BarChartComponent {
     start = new Date(start);
     end = new Date(end);
     let filterByData = data.filter((d: any) => {
-      return (start < new Date(d.date) && new Date(d.date) < end)
+      return (start <= new Date(d.date) && new Date(d.date) <= end)
     });
     return filterByData;
   }
