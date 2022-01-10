@@ -14,4 +14,8 @@ export class OuhmaidService {
     return d3.json("../../../assets/test.json")
   }
 
+  getOuhmaidRealHistory(){
+    return d3.csv("../../../assets/_files/OuhmaidData.csv")
+  }
+
 }
