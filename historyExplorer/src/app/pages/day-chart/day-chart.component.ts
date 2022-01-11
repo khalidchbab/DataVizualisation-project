@@ -84,9 +84,10 @@ export class DayChartComponent implements OnInit {
   hours: string[];
 
   max:Date = new Date("01/10/2022")
+  min:Date = new Date("10/13/2021")
   
   rangeFilter: DateFilterFn<Date> = (date: Date | null) => {
-    return date?.getDay() ? date?.getDay() === 3 && date < this.max :false;
+    return date?.getDay() ? date?.getDay() === 3 && date < this.max && date > this.min :false;
   };
   
   constructor(private dataService: DataService,
@@ -146,7 +147,6 @@ export class DayChartComponent implements OnInit {
   getDate(date: Date) {
     if (date == null)
       return null;
-    console.log(date)
     let fixNumber = (n: number) => (n > 9 ? n + "" : "0" + n);
     return `${fixNumber(date.getMonth() + 1)}/${fixNumber(date.getDate())}/${date.getFullYear()}`;
   }
@@ -202,34 +202,6 @@ export class DayChartComponent implements OnInit {
     return hours
   }
 
-  //   fixDate(date:string){
-  //     let parts = date.split("/")
-  //     let toReturn = ""
-  //     toReturn += Number(parts[0]) < 10 &&  parts[0].length == 1 ? "0"+parts[0]+"/" : parts[0]+"/";
-  //     toReturn += Number(parts[1]) < 10 &&  parts[0].length == 1 ? "0"+parts[1]+"/" : parts[1]+"/";
-  //     toReturn += parts[2]
-  //     return toReturn
-  //   }
-
-  //   dateCompare(d1:string, d2:string){
-  //     let date1:any = this.fixDate(d1)
-  //     let date2:any = this.fixDate(d2)
-  //     date1 = new Date(d1);
-  //     date2 = new Date(d2);
-
-  //     console.log(date1,date2)
-  //     console.log(date1 < date2)
-
-  //     if(date1 > date2){
-  //         return true
-  //     } else if(date1 < date2){
-  //         return false
-  //     } else{
-  //         return false
-  //     }
-  // }
-
-
   reduceDataByHour(data: any, start: any, end: any) {
     start = new Date(start);
     end = new Date(end);
@@ -266,7 +238,6 @@ export class DayChartComponent implements OnInit {
 
 
   getDataInRightForm(data: any) {
-    console.log(data)
     let tmp: any[] = []
     for (let d of data) {
       for (let i in d[1]) {
@@ -343,7 +314,6 @@ export class DayChartComponent implements OnInit {
     }
 
     data = this.getDataInRightForm(data)
-    console.log(data)
     this.svg.selectAll()
       .data(data, function (d: any) {
         return d.group + ':' + d.variable;
