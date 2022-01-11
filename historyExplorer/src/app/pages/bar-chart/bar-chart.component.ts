@@ -10,6 +10,20 @@ import {
   FormBuilder,
   FormGroup
 } from '@angular/forms';
+import {
+  Observable,
+  of
+} from 'rxjs';
+import {
+  map,
+  startWith
+} from "rxjs/operators";
+import {
+  OuhmaidService
+} from 'src/app/services/ouhmaid.service';
+import {
+  PieChartService
+} from 'src/app/services/pie-chart.service';
 
 
 @Component({
@@ -21,22 +35,32 @@ export class BarChartComponent {
 
   data: any;
   svg: any;
-  range: FormGroup
+  form: FormGroup
   private margin = 50;
   private width = 750;
   private height = 400;
   DynamicData: any;
   x = d3.scaleBand()
   y = d3.scaleLinear()
+  options: any = ["Khalid CH", "Adnane DR", "Khalid OUH"];
+  filteredOptions: Observable < string[] > ;
 
-  constructor(private dataService: DataService, private builder: FormBuilder) {
-    this.range = builder.group({
-      start: builder.control(""),
-      end: builder.control("")
+  constructor(
+    private dataService: DataService,
+    private ouhmaidData: OuhmaidService,
+    private adnaneData: PieChartService,
+    private builder: FormBuilder) {
+    this.form = builder.group({
+      start: builder.control(null),
+      end: builder.control(null),
+      person: builder.control("Khalid CH")
     });
+    this.filteredOptions = of (this.options);
+    this.filteredOptions = this.form.controls.person.valueChanges
+      .pipe(startWith(''), map((filterString: any) => this.filter(filterString)));
     this.dataService.getRealHistory().then((res: any[]) => {
       this.data = res
-      this.DynamicData = this.filterDate(this.data, "01/01/2022", "01/10/2022")
+      this.DynamicData = this.filterDate(this.data, "01/01/2021", "01/10/2022")
       this.DynamicData = this.reduceData(this.DynamicData);
       this.svg = d3.select("#bar")
         .append("svg")
@@ -46,18 +70,55 @@ export class BarChartComponent {
         .attr("transform", "translate(" + 50 + "," + 50 + ")");
       this.drawBars(this.DynamicData)
     })
-    this.range.controls.end.valueChanges.subscribe(() => {
+    this.form.controls.end.valueChanges.subscribe(() => {
       this.changed()
+    });
+
+    this.form.controls.person.valueChanges.subscribe(() => {
+      this.changeData()
     });
 
   }
 
+  changeData() {
+    if (this.form.controls.person.value == "Khalid CH") {
+      this.dataService.getRealHistory().then((res: any[]) => {
+        this.data = res
+        console.log("Khalid : ", this.data)
+        this.changed()
+      })
+    } else if(this.form.controls.person.value == "Adnane DR"){
+      this.adnaneData.getAdnaneRealHistory().then((res: any[]) => {
+        this.data = res
+        console.log("Adnane : ", this.data)
+        this.changed()
+      })
+    } else {
+      this.ouhmaidData.getOuhmaidRealHistory().then((res: any[]) => {
+        this.data = res
+        console.log("Ouhmaid : ", this.data)
+        this.changed()
+      })
+    }
+  }
+
+  private filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter((optionValue: any) => optionValue.toLowerCase().includes(filterValue));
+  }
+
+
   changed() {
-    let start = this.getDate(this.range.controls.start.value);
-    let end = this.getDate(this.range.controls.end.value);
-    if (end != null) {
+    if (this.form.controls.end.value != null) {
+    let start = this.getDate(this.form.controls.start.value);
+    let end = this.getDate(this.form.controls.end.value);
       this.DynamicData = this.data
       this.DynamicData = this.filterDate(this.DynamicData, start, end)
+      this.DynamicData = this.reduceData(this.DynamicData);
+      this.drawBars(this.DynamicData)
+    } else if(this.form.controls.end.value == null && this.form.controls.start.value == null) {
+      this.DynamicData = this.data
+      this.DynamicData = this.filterDate(this.DynamicData, "01/01/2021", "01/10/2022")
       this.DynamicData = this.reduceData(this.DynamicData);
       this.drawBars(this.DynamicData)
     }
@@ -66,6 +127,7 @@ export class BarChartComponent {
   getDate(date: Date) {
     if (date == null)
       return null;
+    console.log(date)
     let fixNumber = (n: number) => (n > 9 ? n + "" : "0" + n);
     return `${fixNumber(date.getMonth() + 1)}/${fixNumber(date.getDate())}/${date.getFullYear()}`;
   }
@@ -101,9 +163,9 @@ export class BarChartComponent {
 
       this.y.domain([data[0][1], 0])
         .range([0, this.height]);
-      
-      yScale.domain([0,data[0][1]])
-      .range([0,this.height]);
+
+      yScale.domain([0, data[0][1]])
+        .range([0, this.height]);
     }
     // Draw the X-axis on the DOM
     if (data.length != 0)
@@ -128,7 +190,7 @@ export class BarChartComponent {
     let bars = this.svg.selectAll(".bar")
       .data(data, (d: any) => {
         return d[0]
-    })
+      })
 
     bars.exit()
       .remove();
@@ -142,8 +204,12 @@ export class BarChartComponent {
       })
       .attr("width", this.x.bandwidth())
       .attr("fill", "#d04a35")
-      .attr('y',(d:any) =>{ return this.height})
-      .attr('height', (d:any) =>{ return 0})
+      .attr('y', (d: any) => {
+        return this.height
+      })
+      .attr('height', (d: any) => {
+        return 0
+      })
       .on('mousemove', (event: any, d: any) => {
         tootltip.transition()
           .duration(200)
@@ -159,30 +225,30 @@ export class BarChartComponent {
       .transition()
       .duration(600)
       .ease(d3.easeLinear)
-      .attr('y',(d:any) =>{ return this.height - yScale(d[1])})
-      .attr('height', (d:any) =>{ return yScale(d[1])})
-    
-      
+      .attr('y', (d: any) => {
+        return this.height - yScale(d[1])
+      })
+      .attr('height', (d: any) => {
+        return yScale(d[1])
+      })
+
+
     bars.transition()
       .duration(600)
       .ease(d3.easeLinear)
       .attr("x", (d: any) => {
         return this.x(d[0])
       })
-      .attr('y',(d:any) =>{ return this.height - yScale(d[1])})
-      .attr('height', (d:any) =>{ return yScale(d[1])})
+      .attr('y', (d: any) => {
+        return this.height - yScale(d[1])
+      })
+      .attr('height', (d: any) => {
+        return yScale(d[1])
+      })
 
 
 
   }
-
-  refresh(data: any) {
-
-
-  }
-
-
-
 
   filterDate(data: any, start: any, end: any) {
     start = new Date(start);

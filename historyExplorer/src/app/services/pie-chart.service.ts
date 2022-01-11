@@ -18,4 +18,8 @@ export class PieChartService {
     return d3.json("../../../assets/graph.json") // miserables
   }
 
+  getAdnaneRealHistory(){
+    return d3.csv("../../../assets/_files/DrioucheData.csv")
+  }
+
 }
