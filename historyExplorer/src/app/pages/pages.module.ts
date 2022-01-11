@@ -14,6 +14,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
+import { DayChartComponent } from './day-chart/day-chart.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import {MatInputModule} from '@angular/material/input';
     BarChartComponent,
     PieChartComponent,
     GraphChartComponent,
-    BubbleChartComponent
+    BubbleChartComponent,
+    DayChartComponent
   ],
   imports: [
     PagesRoutingModule,
@@ -32,7 +36,10 @@ import {MatInputModule} from '@angular/material/input';
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule
+    
   ]
 })
 export class PagesModule { }

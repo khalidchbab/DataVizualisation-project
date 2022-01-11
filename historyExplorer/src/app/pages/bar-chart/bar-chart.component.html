@@ -14,13 +14,13 @@
         </mat-form-field>
       </div>
       <div class="col">
-        <mat-form-field>
-          <input type="text" placeholder="Etudiant" matInput formControlName="person" [matAutocomplete]="auto" />
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let user of filteredOptions | async" [value]="user">
-              {{ user }}
-            </mat-option>
-          </mat-autocomplete>
+        <mat-form-field appearance="fill">
+          <mat-select formControlName="person">
+            <mat-option [value]="item" *ngFor="let item of options">{{item}}</mat-option>
+          </mat-select>
+          <mat-label>
+            <mat-icon>favorite</mat-icon> <b> Adventurer</b> <i> Name</i>
+          </mat-label>
         </mat-form-field>
       </div>
     </div>

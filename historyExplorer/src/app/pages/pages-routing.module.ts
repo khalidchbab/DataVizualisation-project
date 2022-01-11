@@ -6,6 +6,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { PagesComponent } from "./pages.component";
 import { GraphChartComponent } from './graph-chart/graph-chart.component';
+import { DayChartComponent } from './day-chart/day-chart.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
       {
         path: "bubblechart",
         component: BubbleChartComponent,
+      },
+      {
+        path: "daychart",
+        component: DayChartComponent,
       }
     ]
   }

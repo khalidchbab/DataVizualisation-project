@@ -1,0 +1,27 @@
+::ng-deep  .hidden {
+    display: none;
+}
+
+::ng-deep .tooltip {
+    position: absolute;
+    opacity:0.8;
+    z-index:1000;
+    text-align:left;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    padding:8px;
+    color:rgb(255, 255, 255);
+    background-color:rgb(0, 0, 0);
+    font: 12px sans-serif;
+    max-width: 300px;
+    height: auto;
+}
+
+::ng-deep .bar:hover {
+    fill: rgba(255, 146, 146, 0.548);
+}
+#svg {
+    display: block;
+    margin: auto;
+}
