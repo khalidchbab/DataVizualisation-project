@@ -45,6 +45,10 @@ export class BarChartComponent {
   options: any = ["Khalid CH", "Adnane DR", "Khalid OUH"];
   filteredOptions: Observable < string[] > ;
 
+  max:Date = new Date("01/10/2022")
+  min:Date = new Date("10/13/2021")
+
+
   constructor(
     private dataService: DataService,
     private ouhmaidData: OuhmaidService,

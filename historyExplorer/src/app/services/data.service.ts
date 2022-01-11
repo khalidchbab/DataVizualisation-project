@@ -16,6 +16,6 @@ export class DataService {
   }
 
   getRealHistory(){
-    return d3.csv("../../../assets/_files/khalidData.csv")
+    return d3.csv("../../../assets/_files/KhalidData.csv")
   }
 }
