@@ -1,20 +1,33 @@
-<h2>Pie Chart</h2>
+<div id="divSlider">
+  <h2>Pie Chart</h2>
+  <form [formGroup]="form" (ngModelChange)="changed()" style="text-align: end;">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Start date">
+            <input matEndDate formControlName="end" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="fill">
+          <mat-select formControlName="person">
+            <mat-option [value]="item" *ngFor="let item of options">{{item}}</mat-option>
+          </mat-select>
+          <mat-label>
+            <mat-icon>favorite</mat-icon> <b> Adventurer</b> <i> Name</i>
+          </mat-label>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+  <figure id="pie"></figure>
+  <div class="tootltipEmp"></div>
+</div>
 
 
-<input type="radio" id="user1" name="users" checked>
-<label for="user1"> CHBAB Khalid</label>
-<input type="radio" id="user2" name="users">
-<label for="user2"> DRIOUCHE Adnane</label>
-<input type="radio" id="user3" name="users">
-<label for="user3"> OUHMAID Khalid</label><br><br>
-<!-- <button class= "check">Check</button> -->
 
-<select name="time" id="time">
-  <option value="week" selected>last week</option>
-  <option value="month">last month</option>
-  <option value="trimestre">last 3 months</option>
-</select>
-
-<figure id="pie"></figure>
-
-<!-- </body> -->

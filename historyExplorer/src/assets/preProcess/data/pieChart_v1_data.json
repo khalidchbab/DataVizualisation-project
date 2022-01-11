@@ -1,0 +1,122 @@
+[
+    {
+        "Website": "www.google.com",
+        "Count": 3410
+    },
+    {
+        "Website": "www.youtube.com",
+        "Count": 2262
+    },
+    {
+        "Website": "www.linkedin.com",
+        "Count": 768
+    },
+    {
+        "Website": "www.facebook.com",
+        "Count": 530
+    },
+    {
+        "Website": "www.google.fr",
+        "Count": 487
+    },
+    {
+        "Website": "github.com",
+        "Count": 398
+    },
+    {
+        "Website": "mail.google.com",
+        "Count": 384
+    },
+    {
+        "Website": null,
+        "Count": 192
+    },
+    {
+        "Website": "docs.google.com",
+        "Count": 165
+    },
+    {
+        "Website": "stackoverflow.com",
+        "Count": 156
+    },
+    {
+        "Website": "www.flaticon.com",
+        "Count": 109
+    },
+    {
+        "Website": "sflix.to",
+        "Count": 92
+    },
+    {
+        "Website": "www.leboncoin.fr",
+        "Count": 89
+    },
+    {
+        "Website": "fr.indeed.com",
+        "Count": 71
+    },
+    {
+        "Website": "www.blablacar.fr",
+        "Count": 71
+    },
+    {
+        "Website": "perso.liris.cnrs.fr",
+        "Count": 58
+    },
+    {
+        "Website": "etu.univ-lyon1.fr",
+        "Count": 52
+    },
+    {
+        "Website": "drive.google.com",
+        "Count": 48
+    },
+    {
+        "Website": "univ-lyon1.jobteaser.com",
+        "Count": 47
+    },
+    {
+        "Website": "tomuss.univ-lyon1.fr",
+        "Count": 45
+    },
+    {
+        "Website": "portal.univ-lyon1.fr",
+        "Count": 44
+    },
+    {
+        "Website": "www.airbnb.fr",
+        "Count": 42
+    },
+    {
+        "Website": "scholar.google.com",
+        "Count": 40
+    },
+    {
+        "Website": "towardsdatascience.com",
+        "Count": 39
+    },
+    {
+        "Website": "accounts.google.com",
+        "Count": 39
+    },
+    {
+        "Website": "www.deepl.com",
+        "Count": 39
+    },
+    {
+        "Website": "www.beeple-crap.com",
+        "Count": 37
+    },
+    {
+        "Website": "adelb.univ-lyon1.fr",
+        "Count": 36
+    },
+    {
+        "Website": "clarolineconnect.univ-lyon1.fr",
+        "Count": 35
+    },
+    {
+        "Website": "localhost",
+        "Count": 33
+    }
+]

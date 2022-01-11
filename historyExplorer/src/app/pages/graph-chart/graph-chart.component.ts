@@ -6,6 +6,15 @@ import {
   PieChartService
 } from './../../services/pie-chart.service';
 import * as d3 from 'd3';
+import {
+  OuhmaidService
+} from 'src/app/services/ouhmaid.service';
+import {
+  DataService
+} from 'src/app/services/data.service';
+import {
+  FormBuilder
+} from '@angular/forms';
 
 @Component({
   selector: 'app-graph-chart',
@@ -25,7 +34,17 @@ export class GraphChartComponent {
   private height = 600;
 
 
-  constructor(private graphChart: PieChartService) {
+  constructor(private dataService: DataService,
+    private ouhmaidData: OuhmaidService,
+    private graphChart: PieChartService,
+    private builder: FormBuilder) {
+
+    this.dataService.getRealHistory().then((res: any) => {
+      // let test = this.reduceData(res)
+      let test = this.basculeData(res)
+      // console.log(test);
+
+    })
 
     this.graphChart.get_graph().then((res: any) => {
 
@@ -41,16 +60,6 @@ export class GraphChartComponent {
 
       this.color = d3.scaleOrdinal(d3.schemeCategory10);
       this.drawGraph(this.graph)
-      // this.cleanSVG()
-
-      // this.color = this.getRandomColor(6)
-      // console.log(this.color);
-
-      // for (let i = 0; i < 3; i++) { 
-      //   console.log(this.colors[i]);
-      // }
-
-      // console.log(this.getUnique(this.graph.nodes));
       var legendAux = ['Education', 'Coding', 'SocialMedia', 'Search', 'Other', 'Entertainment']
       // var legendAux = []  
 
@@ -110,35 +119,50 @@ export class GraphChartComponent {
     d3.selectAll('line').remove();
   }
 
-  getUnique(graphNodes: any) {
-    var lookup: any;
-    var items = graphNodes;
-    var result = [];
-    console.log(graphNodes);
 
-    for (var item, i = 0; item = items[i++];) {
-      var name = item.group;
-
-      if (!(name in lookup)) {
-        lookup[name] = 1;
-        result.push(name);
+  basculeData(data: any) {
+    let counts = data.reduce((p: any,  c: any) => {
+      let name = c.website 
+      let i = c.id
+      
+      console.log(p);
+      
+      if (!p.hasOwnProperty(name)) {
+        p[name] = 0;
       }
-    }
+      p[name]++;
+      return p;
+    }, {})
+      
+    // console.log(counts);
+
+    // for (let d in data) {
+    //   console.log(d);
+
+    // }
   }
 
-  getRandomColor(numberColors: any) {
-    var a = []
-    var letters = '0123456789ABCDEF';
-
-    for (var j = 0; j < numberColors; j++) {
-      var color = '#';
-      for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+  reduceData(data: any) {
+    let counts = data.reduce((p: any, c: any) => {
+      let name = c.website;
+      if (!p.hasOwnProperty(name)) {
+        p[name] = 0;
       }
-      a.push(color)
+      p[name]++;
+      return p;
+    }, {});
+    
+    let sortable = [];
+    for (let entry in counts) {
+      sortable.push([entry, counts[entry]]);
     }
-    return a;
+
+    sortable.sort(function (a, b) {
+      return b[1] - a[1];
+    });
+    return sortable.slice(0, 6)
   }
+
 
   randomData() {
     var data: any;
@@ -181,139 +205,107 @@ export class GraphChartComponent {
       .attr("stroke-width", function (d: any) {
         return (d.value);
       })
-    // .on('mouseover', (event: any, d: any) => {
-    //   console.log(d);
-
-    //   tooltip.html(`Interaction: ${d.value}`).style("visibility", "visible");
-    //   d3.select(event.currentTarget).transition()
-    //     .duration(50)
-    //     .attr('opacity', '.75')
-    //     // d3.select("circle").transition()
-    //     //   .duration(750)
-    //     // .attr("r", 16);
-    // })
-    // .on("mousemove",(event: any, d: any) =>{
-    //   tooltip
-    //     .style("top", (event.pageY-10)+"px")
-    //     .style("left",(event.pageX+10)+"px");
-    // })
-    // .on("mouseout", (event :any, d:any) =>{
-    //   tooltip.style('visibility', 'hidden')
-    //   d3.select(event.currentTarget).transition()
-    //     .duration(1000)
-    // })
-    // .attr("stroke-width", function(d: any) { return Math.sqrt(d.value); });
-
     var node = this.svg.append("g")
-      .attr("class","nodes")
+      .attr("class", "nodes")
       .attr("stroke", "#fff")
       .attr("stroke-opacity", "1.5px")
       .selectAll("g")
       .data(graph.nodes)
       .enter().append("g").call(d3.drag()
-      .on("start", (d: any) => {
-        console.log(d);
-        
-        this.simulation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
-        this.draggedNode = d;
-      })
-      .on("drag", (event, d: any) => {
-        d.fx = event.x // - 3 * (this.width / 5)
-        d.fy = event.y // - 6 * (this.height / 7)
-        // this.simulation.alphaTarget(0.3).restart();
+        .on("start", (d: any) => {
+          // console.log(d);
 
-      })
-      .on("end", (event: any, d: any) => {
-        if (!event.currentTarget) this.simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
-        this.draggedNode = null;
-      }))
-
-    .on('mouseover', (event: any, d: any) => {
-
-      if (this.draggedNode != null) {
-        // console.log(this.draggedNode);
-        d = this.draggedNode;
-      }
-
-      link.attr("stroke", "#000")
-      const to_keep = new Set();
-
-      link
-        .filter(function (c: any) {
-          // console.log(c.id);
-
-          const f = c.source.id != d.id && c.target.id != d.id && c.value > 0;
-
-          if (!f && c.value > 0)
-            to_keep.add(c.source.id == d.id ? c.target.id : c.source.id);
-          return f;
+          this.simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+          this.draggedNode = d;
         })
-        .style('opacity', 0.1);
+        .on("drag", (event, d: any) => {
+          d.fx = event.x
+          d.fy = event.y
 
-
-      //   // Set opacity of nodes to remove
-      node
-        .filter(function (c: any) {
-          return !to_keep.has(c.id) && c.id != d.id
         })
-        .style('opacity', 0.1);
+        .on("end", (event: any, d: any) => {
+          if (!event.currentTarget) this.simulation.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+          this.draggedNode = null;
+        }))
 
-      tooltip.html(`${d.id}`).style("visibility", "visible");
-      d3.select(event.currentTarget)
+      .on('mouseover', (event: any, d: any) => {
+
+        if (this.draggedNode != null) {
+          // console.log(this.draggedNode);
+          d = this.draggedNode;
+        }
+
+        link.attr("stroke", "#000")
+        const to_keep = new Set();
+
+        link
+          .filter(function (c: any) {
+            // console.log(c.id);
+
+            const f = c.source.id != d.id && c.target.id != d.id && c.value > 0;
+
+            if (!f && c.value > 0)
+              to_keep.add(c.source.id == d.id ? c.target.id : c.source.id);
+            return f;
+          })
+          .style('opacity', 0.1);
+
+
+        //   // Set opacity of nodes to remove
+        node
+          .filter(function (c: any) {
+            return !to_keep.has(c.id) && c.id != d.id
+          })
+          .style('opacity', 0.1);
+
+        tooltip.html(`${d.id}`).style("visibility", "visible");
+        d3.select(event.currentTarget)
         // .transition()
         // .duration(50)
-    })
-    .on("mousemove", (event: any, d: any) => {
-      tooltip
-        .style("top", (event.pageY - 10) + "px")
-        .style("left", (event.pageX + 10) + "px");
-    })
-    .on('mouseout', (event: any, d: any) => {
-      
-      link.style('opacity', 1).attr("stroke", "#d8d8d8");
-      node.style('opacity', 1);
-      tooltip.style('visibility', 'hidden')
-      // d3.select(event.currentTarget)
-      //   .attr("r", Math.log(d.Count) + 2)
-      //   .attr('opacity', '1');
-      // d3.select("circle").transition()
-      //   .duration(750)
-      //   .attr("r", 8);
-    })
-      
-      
+      })
+      .on("mousemove", (event: any, d: any) => {
+        tooltip
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
+      })
+      .on('mouseout', (event: any, d: any) => {
+
+        link.style('opacity', 1).attr("stroke", "#d8d8d8");
+        node.style('opacity', 1);
+        tooltip.style('visibility', 'hidden')
+      })
+
+
     const circles = node.append("circle")
       .attr("r", (d: any) => {
-        return Math.sqrt(d.Count/ Math.PI) +3;
+        return Math.sqrt(d.Count / Math.PI) + 3;
       })
-      // .attr("fill", (d: any) => {
-      //   return this.color(d.group);
-      // })
       .attr("fill", "#fff")
       .attr('stroke', 'black');
 
     // Images within the circles
     const images = node.append('image')
-    .attr('xlink:href', (d:any) => { 
-      console.log(d.image);
-      
-      return String(d.image)})
-    .attr('width', (d: any) => {
-      return 2*Math.sqrt(d.Count/ Math.PI);
-    })
-    .attr('height', (d: any) => {
-      return 2*Math.sqrt(d.Count/ Math.PI);
-    })
-    .attr('x', (d: any) => {
-      return -Math.sqrt(d.Count/ Math.PI);
-    })
-    .attr('y', (d: any) => {
-      return -Math.sqrt(d.Count/ Math.PI);
-    });
+      .attr('xlink:href', (d: any) => {
+        // console.log(d.image);
+
+        return String(d.image)
+      })
+      .attr('width', (d: any) => {
+        return 2 * Math.sqrt(d.Count / Math.PI);
+      })
+      .attr('height', (d: any) => {
+        return 2 * Math.sqrt(d.Count / Math.PI);
+      })
+      .attr('x', (d: any) => {
+        return -Math.sqrt(d.Count / Math.PI);
+      })
+      .attr('y', (d: any) => {
+        return -Math.sqrt(d.Count / Math.PI);
+      });
 
 
     this.simulation
@@ -333,18 +325,11 @@ export class GraphChartComponent {
             return d.target.y;
           });
 
-
-
-        node.attr('transform', (d:any) => `translate(${d.x},${d.y})`);
+        node.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
       });
 
     this.simulation.force("link")
       .links(graph.links);
-
-    
-
-    // d3.selectAll("line")
-
 
   }
 
