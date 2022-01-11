@@ -3,77 +3,92 @@
         {
             "id": "www.google.com",
             "Count": 3410,
-            "group": 4
+            "group": 4,
+            "image": "./../../assets/logos/google.png"
         },
         {
             "id": "www.youtube.com",
             "Count": 2262,
-            "group": 6
+            "group": 6,
+            "image": "./../../assets/logos/youtube.png"
         },
         {
             "id": "www.linkedin.com",
-            "Count": 768,
-            "group": 3
+            "Count": 1068,
+            "group": 3,
+            "image": "./../../assets/logos/linkedin.png"
         },
         {
             "id": "www.facebook.com",
             "Count": 530,
-            "group": 3
+            "group": 3,
+            "image": "./../../assets/logos/facebook.png"
         },
         {
             "id": "www.google.fr",
             "Count": 487,
-            "group": 4
+            "group": 4,
+            "image": "./../../assets/logos/google.png"
         },
         {
             "id": "github.com",
             "Count": 398,
-            "group": 2
+            "group": 2,
+            "image": "./../../assets/logos/github.png"
         },
         {
             "id": "mail.google.com",
             "Count": 384,
-            "group": 4
+            "group": 4,
+            "image": "./../../assets/logos/gmail.png"
         },
         {
             "id": "docs.google.com",
             "Count": 165,
-            "group": 4
+            "group": 4,
+            "image": "./../../assets/logos/docs.png"
         },
         {
             "id": "stackoverflow.com",
             "Count": 156,
-            "group": 2
+            "group": 2,
+            "image": "./../../assets/logos/stackOverflow.png"
         },
         {
             "id": "www.flaticon.com",
             "Count": 109,
-            "group": 4
+            "group": 4,
+            "image": "./../../assets/logos/flaticone.png"
         },
         {
             "id": "sflix.to",
             "Count": 92,
-            "group": 6
+            "group": 6,
+            "image": "./../../assets/logos/netflix.png"
         },
         {
             "id": "www.leboncoin.fr",
             "Count": 89,
-            "group": 4
+            "group": 4,
+            "image": "./../../assets/logos/leboncoin.png"
         },
         {
             "id": "fr.indeed.com",
             "Count": 71,
-            "group": 1
+            "group": 1,
+            "image": "./../../assets/logos/indeed.png"
         },
         {
             "id": "www.blablacar.fr",
             "Count": 71,
-            "group": 6
+            "group": 6,
+            "image": "./../../assets/logos/blabla.png"
         },
         {
             "id": "perso.liris.cnrs.fr",
             "Count": 58,
-            "group": 1
+            "group": 1,
+            "image": "./../../assets/logos/cnrs.png"
         },
         {
             "id": "etu.univ-lyon1.fr",
@@ -83,27 +98,32 @@
         {
             "id": "drive.google.com",
             "Count": 48,
-            "group": 4
+            "group": 4,
+            "image": "./../../assets/logos/drive.png"
         },
         {
             "id": "univ-lyon1.jobteaser.com",
             "Count": 47,
-            "group": 1
+            "group": 1,
+            "image": "./../../assets/logos/jobTeaser.png"
         },
         {
             "id": "tomuss.univ-lyon1.fr",
             "Count": 45,
-            "group": 1
+            "group": 1,
+            "image": "./../../assets/logos/lyon.png"
         },
         {
             "id": "portal.univ-lyon1.fr",
             "Count": 44,
-            "group": 1
+            "group": 1,
+            "image": "./../../assets/logos/lyon.png"
         },
         {
             "id": "www.airbnb.fr",
             "Count": 42,
-            "group": 5
+            "group": 5,
+            "image": "./../../assets/logos/airbnb.png"
         },
         {
             "id": "scholar.google.com",
@@ -123,22 +143,26 @@
         {
             "id": "www.deepl.com",
             "Count": 39,
-            "group": 4
+            "group": 4,
+            "image": "./../../assets/logos/deepl.png"
         },
         {
             "id": "www.beeple-crap.com",
             "Count": 37,
-            "group": 4
+            "group": 4,
+            "image": "./../../assets/logos/beeple.png"
         },
         {
             "id": "adelb.univ-lyon1.fr",
             "Count": 36,
-            "group": 1
+            "group": 1,
+            "image": "./../../assets/logos/lyon.png"
         },
         {
             "id": "clarolineconnect.univ-lyon1.fr",
             "Count": 35,
-            "group": 1
+            "group": 1,
+            "image": "./../../assets/logos/lyon.png"
         },
         {
             "id": "localhost",

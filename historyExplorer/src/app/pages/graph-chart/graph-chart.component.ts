@@ -21,8 +21,8 @@ export class GraphChartComponent {
   link: any;
   node: any;
   private color: any;
-  private width = 600;
-  private height = 200;
+  private width = 960;
+  private height = 600;
 
 
   constructor(private graphChart: PieChartService) {
@@ -33,8 +33,7 @@ export class GraphChartComponent {
       this.svg = d3.select("figure#graph")
         .append("svg")
         .attr("width", this.width)
-        .attr("height", this.height)
-        .append("g")
+        .attr("height", this.height);
       // .attr(
       //   "transform",
       //   "translate(" + this.width / 2 + "," + this.height / 2 + ")"
@@ -76,7 +75,6 @@ export class GraphChartComponent {
         })
 
       this.svg.append('g')
-        // .selectAll("circle")
         .selectAll('rect')
         .data(legendAux)
         .enter()
@@ -107,6 +105,7 @@ export class GraphChartComponent {
 
 
   cleanSVG() {
+    d3.selectAll('image').remove()
     d3.selectAll('circle').remove();
     d3.selectAll('line').remove();
   }
@@ -158,14 +157,14 @@ export class GraphChartComponent {
       .style("position", "absolute")
       .style("z-index", "100")
       .style("visibility", "hidden")
-      .style("padding", "15px")
+      .style("padding", "6px")
       .style("background", "rgba(0,0,0,0.6)")
       .style("border-radius", "5px")
       .style("color", "#fff")
       .text("a simple tooltip");
 
     this.simulation = d3.forceSimulation()
-      .force("link", d3.forceLink().id(function (d: any) {
+      .force("link", d3.forceLink().distance(d => 150).id(function (d: any) {
         return d.id;
       }))
       .force("charge", d3.forceManyBody())
@@ -174,97 +173,148 @@ export class GraphChartComponent {
 
     var link = this.svg.append("g")
       // .attr("class", "links")
-      .attr("stroke", "#000")
-      // .attr("stroke-opacity", 0.6)
+      .attr("stroke", "#d8d8d8")
+      .attr("stroke-opacity", 0.6)
       .selectAll("line")
       .data(graph.links)
       .enter().append("line")
       .attr("stroke-width", function (d: any) {
-        return (d.value / 10);
+        return (d.value);
       })
-      .on('mouseover', (event: any, d: any) => {
-        console.log(d);
-        
-        tooltip.html(`Interaction: ${d.value}`).style("visibility", "visible");
-        d3.select(event.currentTarget).transition()
-          .duration(50)
-          .attr('opacity', '.75')
-          // d3.select("circle").transition()
-          //   .duration(750)
-          // .attr("r", 16);
-      })
-      .on("mousemove",(event: any, d: any) =>{
-        tooltip
-          .style("top", (event.pageY-10)+"px")
-          .style("left",(event.pageX+10)+"px");
-      })
-      .on("mouseout", (event :any, d:any) =>{
-        tooltip.style('visibility', 'hidden')
-        d3.select(event.currentTarget).transition()
-          .duration(1000)
-      })
+    // .on('mouseover', (event: any, d: any) => {
+    //   console.log(d);
+
+    //   tooltip.html(`Interaction: ${d.value}`).style("visibility", "visible");
+    //   d3.select(event.currentTarget).transition()
+    //     .duration(50)
+    //     .attr('opacity', '.75')
+    //     // d3.select("circle").transition()
+    //     //   .duration(750)
+    //     // .attr("r", 16);
+    // })
+    // .on("mousemove",(event: any, d: any) =>{
+    //   tooltip
+    //     .style("top", (event.pageY-10)+"px")
+    //     .style("left",(event.pageX+10)+"px");
+    // })
+    // .on("mouseout", (event :any, d:any) =>{
+    //   tooltip.style('visibility', 'hidden')
+    //   d3.select(event.currentTarget).transition()
+    //     .duration(1000)
+    // })
     // .attr("stroke-width", function(d: any) { return Math.sqrt(d.value); });
 
     var node = this.svg.append("g")
-      // .attr("class", "nodes")
+      .attr("class","nodes")
       .attr("stroke", "#fff")
       .attr("stroke-opacity", "1.5px")
-      .selectAll("circle")
+      .selectAll("g")
       .data(graph.nodes)
-      .enter().append("circle")
+      .enter().append("g").call(d3.drag()
+      .on("start", (d: any) => {
+        console.log(d);
+        
+        this.simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+        this.draggedNode = d;
+      })
+      .on("drag", (event, d: any) => {
+        d.fx = event.x // - 3 * (this.width / 5)
+        d.fy = event.y // - 6 * (this.height / 7)
+        // this.simulation.alphaTarget(0.3).restart();
+
+      })
+      .on("end", (event: any, d: any) => {
+        if (!event.currentTarget) this.simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+        this.draggedNode = null;
+      }))
+
+    .on('mouseover', (event: any, d: any) => {
+
+      if (this.draggedNode != null) {
+        // console.log(this.draggedNode);
+        d = this.draggedNode;
+      }
+
+      link.attr("stroke", "#000")
+      const to_keep = new Set();
+
+      link
+        .filter(function (c: any) {
+          // console.log(c.id);
+
+          const f = c.source.id != d.id && c.target.id != d.id && c.value > 0;
+
+          if (!f && c.value > 0)
+            to_keep.add(c.source.id == d.id ? c.target.id : c.source.id);
+          return f;
+        })
+        .style('opacity', 0.1);
+
+
+      //   // Set opacity of nodes to remove
+      node
+        .filter(function (c: any) {
+          return !to_keep.has(c.id) && c.id != d.id
+        })
+        .style('opacity', 0.1);
+
+      tooltip.html(`${d.id}`).style("visibility", "visible");
+      d3.select(event.currentTarget)
+        // .transition()
+        // .duration(50)
+    })
+    .on("mousemove", (event: any, d: any) => {
+      tooltip
+        .style("top", (event.pageY - 10) + "px")
+        .style("left", (event.pageX + 10) + "px");
+    })
+    .on('mouseout', (event: any, d: any) => {
+      
+      link.style('opacity', 1).attr("stroke", "#d8d8d8");
+      node.style('opacity', 1);
+      tooltip.style('visibility', 'hidden')
+      // d3.select(event.currentTarget)
+      //   .attr("r", Math.log(d.Count) + 2)
+      //   .attr('opacity', '1');
+      // d3.select("circle").transition()
+      //   .duration(750)
+      //   .attr("r", 8);
+    })
+      
+      
+    const circles = node.append("circle")
       .attr("r", (d: any) => {
-        return Math.log(d.Count) + 2;
+        return Math.sqrt(d.Count/ Math.PI) +3;
       })
-      .attr("fill", (d: any) => {
-        return this.color(d.group);
-      })
-      .call(d3.drag()
-        .on("start", (d: any) => {
-          this.simulation.alphaTarget(0.3).restart();
-          d.fx = d.x;
-          d.fy = d.y;
-          // this.draggedNode = d;
-        })
-        .on("drag", (event, d: any) => {
-          d.fx = d3.pointer(event)[0] - 3 * (this.width / 5)
-          d.fy = d3.pointer(event)[1] - 6 * (this.height / 7)
-          this.simulation.alphaTarget(0.3).restart();
+      // .attr("fill", (d: any) => {
+      //   return this.color(d.group);
+      // })
+      .attr("fill", "#fff")
+      .attr('stroke', 'black');
 
-        })
-        .on("end", (d) => {
-          this.simulation.alphaTarget(0);
-          d.fx = null;
-          d.fy = null;
-          // this.draggedNode = null;
-        }))
-      .on('mouseover', (event: any, d: any) => {
-        tooltip.html(`Website: ${d.id}`).style("visibility", "visible");
-        d3.select(event.currentTarget).transition()
-          .duration(50)
-          // .attr('opacity', '.75')
-          // d3.select("circle").transition()
-          //   .duration(750)
-          .attr("r", 16);
-      })
-      .on("mousemove", (event: any, d: any) => {
-        tooltip
-          .style("top", (event.pageY - 10) + "px")
-          .style("left", (event.pageX + 10) + "px");
-      })
-      .on('mouseout', (event: any, d: any) => {
-        tooltip.style('visibility', 'hidden')
-        d3.select(event.currentTarget)
-          .attr("r", Math.log(d.Count) + 2)
-          .attr('opacity', '1');
-        // d3.select("circle").transition()
-        //   .duration(750)
-        //   .attr("r", 8);
-      })
+    // Images within the circles
+    const images = node.append('image')
+    .attr('xlink:href', (d:any) => { 
+      console.log(d.image);
+      
+      return String(d.image)})
+    .attr('width', (d: any) => {
+      return 2*Math.sqrt(d.Count/ Math.PI);
+    })
+    .attr('height', (d: any) => {
+      return 2*Math.sqrt(d.Count/ Math.PI);
+    })
+    .attr('x', (d: any) => {
+      return -Math.sqrt(d.Count/ Math.PI);
+    })
+    .attr('y', (d: any) => {
+      return -Math.sqrt(d.Count/ Math.PI);
+    });
 
-    // node.append("title")
-    //   .text(function (d: any) {
-    //     return d.id;
-    //   });
 
     this.simulation
       .nodes(graph.nodes)
@@ -283,17 +333,15 @@ export class GraphChartComponent {
             return d.target.y;
           });
 
-        node
-          .attr("cx", function (d: any) {
-            return d.x;
-          })
-          .attr("cy", function (d: any) {
-            return d.y;
-          });
+
+
+        node.attr('transform', (d:any) => `translate(${d.x},${d.y})`);
       });
 
     this.simulation.force("link")
       .links(graph.links);
+
+    
 
     // d3.selectAll("line")
 
