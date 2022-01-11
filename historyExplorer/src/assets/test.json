@@ -1,27 +1,27 @@
 [
   {
     "Framework": "Google",
-    "Stars": 166443,
+    "Stars": 20,
     "Released": 2014
   },
   {
     "Framework": "Github",
-    "Stars": 150793,
+    "Stars": 30,
     "Released": 2013
   },
   {
     "Framework": "Linkedin",
-    "Stars": 62342,
+    "Stars": 50,
     "Released": 2016
   },
   {
     "Framework": "Facebook",
-    "Stars": 27647,
+    "Stars": 26,
     "Released": 2010
   },
   {
     "Framework": "Netflix",
-    "Stars": 21471,
+    "Stars": 50,
     "Released": 2011
   }
 ]
