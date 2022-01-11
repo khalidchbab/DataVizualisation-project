@@ -1,4 +1,29 @@
 <div id="divSlider">
+  <form [formGroup]="form" (ngModelChange)="changed()" style="text-align: end;">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [dateFilter]="rangeFilter">
+            <input matStartDate formControlName="start"  placeholder="Start date">
+            <input matEndDate formControlName="end" [max]="max" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="fill">
+          <mat-select formControlName="person">
+            <mat-option [value]="item" *ngFor="let item of options">{{item}}</mat-option>
+          </mat-select>
+          <mat-label>
+            <mat-icon>favorite</mat-icon> <b> Adventurer</b> <i> Name</i>
+          </mat-label>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
   <figure id="heatmap"></figure>
   <div class="tootltipEmp"></div>
 </div>

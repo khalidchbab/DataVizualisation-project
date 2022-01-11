@@ -1,5 +1,6 @@
 import {
   Component,
+  Injectable,
   OnInit
 } from '@angular/core';
 import {
@@ -24,14 +25,53 @@ import {
 import {
   PieChartService
 } from 'src/app/services/pie-chart.service';
+import {
+  MatDateRangeSelectionStrategy,
+  DateRange,
+  MAT_DATE_RANGE_SELECTION_STRATEGY,
+  DateFilterFn,
+} from '@angular/material/datepicker';
+import { DateAdapter } from '@angular/material/core';
+
+
+
+@Injectable()
+export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionStrategy<D> {
+  constructor(private _dateAdapter: DateAdapter<D>) {}
+
+  selectionFinished(date: D | null): DateRange<D> {
+    return this._createSevenDayRange(date);
+  }
+
+  createPreview(activeDate: D | null): DateRange<D> {
+    return this._createSevenDayRange(activeDate);
+  }
+
+  private _createSevenDayRange(date: D | null): DateRange<D> {
+    if (date) {
+      const start = this._dateAdapter.addCalendarDays(date, -3);
+      const end = this._dateAdapter.addCalendarDays(date, 3);
+      return new DateRange<D>(start, end);
+    }
+
+    return new DateRange<D>(null, null);
+  }
+}
 
 @Component({
   selector: 'app-day-chart',
   templateUrl: './day-chart.component.html',
-  styleUrls: ['./day-chart.component.scss']
+  styleUrls: ['./day-chart.component.scss'],
+  providers: [
+    {
+      provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
+      useClass: FiveDayRangeSelectionStrategy,
+    },
+  ],
 })
 export class DayChartComponent implements OnInit {
 
+  form: FormGroup
   data: any;
   svg: any;
   private margin = 50;
@@ -43,11 +83,22 @@ export class DayChartComponent implements OnInit {
   options: any = ["Khalid CH", "Adnane DR", "Khalid OUH"];
   hours: string[];
 
-
+  max:Date = new Date("01/10/2022")
+  
+  rangeFilter: DateFilterFn<Date> = (date: Date | null) => {
+    return date?.getDay() ? date?.getDay() === 3 && date < this.max :false;
+  };
+  
   constructor(private dataService: DataService,
     private ouhmaidData: OuhmaidService,
     private adnaneData: PieChartService,
     private builder: FormBuilder) {
+      this.form = builder.group({
+        start: builder.control(null),
+        end: builder.control(null),
+        person: builder.control("Khalid CH")
+      });
+  
     this.hours = this.generateHours()
     this.dataService.getRealHistory().then((res: any) => {
       this.data = res
@@ -61,7 +112,70 @@ export class DayChartComponent implements OnInit {
       this.drawChart(this.DynamicData)
     })
 
+    this.form.controls.end.valueChanges.subscribe(() => {
+      this.changed()
+    });
+
+    this.form.controls.person.valueChanges.subscribe(() => {
+      this.changeData()
+    });
+
+
   }
+
+  changeData() {
+    if (this.form.controls.person.value == "Khalid CH") {
+      this.dataService.getRealHistory().then((res: any[]) => {
+        this.data = res
+        this.changed()
+      })
+    } else if(this.form.controls.person.value == "Adnane DR"){
+      this.adnaneData.getAdnaneRealHistory().then((res: any[]) => {
+        this.data = res
+        this.changed()
+      })
+    } else {
+      this.ouhmaidData.getOuhmaidRealHistory().then((res: any[]) => {
+        this.data = res
+        this.changed()
+      })
+    }
+  }
+
+
+  getDate(date: Date) {
+    if (date == null)
+      return null;
+    console.log(date)
+    let fixNumber = (n: number) => (n > 9 ? n + "" : "0" + n);
+    return `${fixNumber(date.getMonth() + 1)}/${fixNumber(date.getDate())}/${date.getFullYear()}`;
+  }
+
+  changed() {
+    if (this.form.controls.end.value != null) {
+    let start = this.getDate(this.form.controls.start.value);
+    let end = this.getDate(this.form.controls.end.value);
+      this.DynamicData = this.data
+      this.DynamicData = this.reduceDataByDay(this.DynamicData,start,end)
+      this.drawChart(this.DynamicData)
+    } else if(this.form.controls.end.value == null && this.form.controls.start.value == null) {
+      this.DynamicData = this.data
+      
+      this.DynamicData = this.reduceDataByDay(this.DynamicData, "01/01/2022", "01/06/2022")
+      this.drawChart(this.DynamicData)
+    }
+  }
+
+  filterDate(data: any, start: any, end: any) {
+    start = new Date(start);
+    end = new Date(end);
+    let filterByData = data.filter((d: any) => {
+      return (start <= new Date(d.date) && new Date(d.date) <= end)
+    });
+    return filterByData;
+  }
+
+  
 
   reduceDataByDay(data: any, start: any, end: any) {
     let counts = data.reduce((p: any, c: any) => {
@@ -167,20 +281,18 @@ export class DayChartComponent implements OnInit {
   }
 
   drawChart(data: any) {
+    this.svg.selectAll("*").remove()
     let myGroups = d3.map(data, (d: any) => {
       return d[0];
     })
     myGroups = myGroups.sort(this.compareDecimals)
-
+    
     let myVars = d3.map(Object.keys((data[0][1])), (d: any) => {
       return d;
     })
     myVars.sort(this.compareDecimals)
 
-    let xScale = d3.scaleBand()
-      .range([0, this.width])
-      .domain(myGroups)
-      .padding(0.1);
+    let xScale = d3.scaleBand().range([0, this.width]).domain(myGroups).padding(0.1);
 
     this.svg.append("g")
       .style("font-size", 15)
@@ -273,7 +385,6 @@ export class DayChartComponent implements OnInit {
       .style("fill", "grey")
       .style("max-width", 400)
       .text("Ce graphique représente le nombre horaire de sites visités en corrélation de jours");
-
 
   }
 
