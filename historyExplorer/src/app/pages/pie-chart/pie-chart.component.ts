@@ -216,7 +216,7 @@ export class PieChartComponent {
 
     this.colors = d3.scaleOrdinal()
       .domain(data.map((d: any) => d[1].toString()))
-      .range(d3.schemeCategory10);
+      .range(d3.schemePaired);
 
     var pie = d3.pie()
       .sort(null)
@@ -258,10 +258,10 @@ export class PieChartComponent {
       .on('mouseover', (event: any, d: any) => {
         ;
 
-        tooltip.html(`Data: ${d.data[1]}`).style("visibility", "visible");
+        tooltip.html(`Visited Count: ${d.data[1]}`).style("visibility", "visible");
         d3.select(event.currentTarget).transition()
           .duration(50)
-          .attr('opacity', '.75')
+          .attr('opacity', '1')
       })
       .on("mousemove", (event: any, d: any) => {
         tooltip
@@ -272,7 +272,7 @@ export class PieChartComponent {
         tooltip.style('visibility', 'hidden')
         d3.select(event.currentTarget).transition()
           .duration(50)
-          .attr('opacity', '1')
+          .attr('opacity', '0.75')
       });
     // console.log(slice)
     slice
@@ -300,6 +300,7 @@ export class PieChartComponent {
         return d[0]
       }).enter()
       .append("text")
+      .attr("fill", "#fff")
       .attr("dy", ".35em")
       .text(function (d: any) {
         return d.data[0];
@@ -338,9 +339,9 @@ export class PieChartComponent {
       }).enter()
       .append("polyline")
 
-    polyline.attr("stroke", "black")
+    polyline.attr("stroke", "#fff")
       .attr("fill", "none")
-      .attr("opacity", .3)
+      .attr("opacity", .5)
       .attr("stroke-width", "2px")
 
     polyline.transition().duration(1000)

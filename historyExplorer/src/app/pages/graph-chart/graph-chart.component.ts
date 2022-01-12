@@ -41,7 +41,7 @@ export class GraphChartComponent {
   node: any;
   private color: any;
   private width = 960;
-  private height = 600;
+  private height = 900;
   
   nodes : any; 
   links : any; 
@@ -261,8 +261,20 @@ export class GraphChartComponent {
       case 'github':
         return "./../../assets/logos/"+parts[0]+".png";
         break;
-      case 'stockoverflow':
+      case 'stackoverflow':
           return "./../../assets/logos/stackOverflow.png";
+          break;
+      case 'translate':
+          return "./../../assets/logos/translate.png";
+          break;
+      case 'localhost':
+          return "./../../assets/logos/localhost.png";
+          break;
+      case 'localhost:4200':
+          return "./../../assets/logos/localhost.png";
+          break;
+      case 'cpanel-box5703':
+          return "./../../assets/logos/cpanel.png";
           break;
     }
 
@@ -575,7 +587,7 @@ export class GraphChartComponent {
     .data(graph.links)
     .enter().append("line")
     .attr("stroke-width", function (d: any) {
-      return (d.value/2);
+      return (Math.sqrt(d.value));
     })
   var node = this.svg.append("g")
     .attr("class", "nodes")
@@ -611,7 +623,7 @@ export class GraphChartComponent {
         d = this.draggedNode;
       }
 
-      link.attr("stroke", "#000")
+      link.attr("stroke", "#fff")
       const to_keep = new Set();
 
       link
