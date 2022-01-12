@@ -7,6 +7,7 @@ import { NgModule } from "@angular/core";
 import { PagesComponent } from "./pages.component";
 import { GraphChartComponent } from './graph-chart/graph-chart.component';
 import { DayChartComponent } from './day-chart/day-chart.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
       {
         path: "daychart",
         component: DayChartComponent,
+      },
+      {
+        path: "",
+        component: MainPageComponent,
       }
     ]
   }

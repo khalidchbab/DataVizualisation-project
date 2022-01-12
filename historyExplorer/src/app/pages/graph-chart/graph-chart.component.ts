@@ -575,7 +575,7 @@ export class GraphChartComponent {
     .data(graph.links)
     .enter().append("line")
     .attr("stroke-width", function (d: any) {
-      return (d.value);
+      return (d.value/2);
     })
   var node = this.svg.append("g")
     .attr("class", "nodes")

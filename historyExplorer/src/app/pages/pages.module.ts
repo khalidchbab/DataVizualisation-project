@@ -17,6 +17,7 @@ import {MatInputModule} from '@angular/material/input';
 import { DayChartComponent } from './day-chart/day-chart.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
+import { MainPageComponent } from './main-page/main-page.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {MatSelectModule} from '@angular/material/select';
     PieChartComponent,
     GraphChartComponent,
     BubbleChartComponent,
-    DayChartComponent
+    DayChartComponent,
+    MainPageComponent
   ],
   imports: [
     PagesRoutingModule,
