@@ -3,6 +3,7 @@ import {
 } from './../../services/data.service';
 import {
   Component,
+  Input,
   OnInit
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -55,8 +56,14 @@ export class PieChartComponent {
   DynamicData: any;
   
   form: FormGroup;
-  options: any = ["Khalid CH", "Adnane DR", "Khalid OUH"];
+  options: any = ["Adnane DR","Khalid CH",  "Khalid OUH"];
   filteredOptions: Observable < string[] > ;
+
+  @Input() item:number = 0;
+  ngOnChanges() {
+    this.changeData();    
+}
+
 
   constructor(private dataService: DataService,
     private ouhmaidData: OuhmaidService,
@@ -105,26 +112,25 @@ export class PieChartComponent {
   }
 
   changeData() {
-    if (this.form.controls.person.value == "Khalid CH") {
+    if (this.options[this.item] == "Khalid CH") {
       this.dataService.getRealHistory().then((res: any[]) => {
         this.data = res
-        console.log("Khalid : ", this.data)
         this.changed()
       })
-    } else if(this.form.controls.person.value == "Adnane DR"){
+    } else if(this.options[this.item] == "Adnane DR"){
       this.adnaneData.getAdnaneRealHistory().then((res: any[]) => {
         this.data = res
-        console.log("Adnane : ", this.data)
         this.changed()
       })
     } else {
       this.ouhmaidData.getOuhmaidRealHistory().then((res: any[]) => {
         this.data = res
-        console.log("Ouhmaid : ", this.data)
         this.changed()
       })
     }
   }
+
+  
 
   changed() {
     if (this.form.controls.end.value != null) {
@@ -136,7 +142,7 @@ export class PieChartComponent {
       this.change(this.DynamicData)
     } else if(this.form.controls.end.value == null && this.form.controls.start.value == null) {
       this.DynamicData = this.data
-      this.DynamicData = this.filterDate(this.DynamicData, "01/01/2021", "01/10/2022")
+      this.DynamicData = this.filterDate(this.DynamicData, "01/01/2022", "01/10/2022")
       this.DynamicData = this.reduceData(this.DynamicData);
       this.change(this.DynamicData)
     }

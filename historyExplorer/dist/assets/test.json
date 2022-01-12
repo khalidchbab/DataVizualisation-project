@@ -1,0 +1,27 @@
+[
+  {
+    "Framework": "Google",
+    "Stars": 20,
+    "Released": 2014
+  },
+  {
+    "Framework": "Github",
+    "Stars": 30,
+    "Released": 2013
+  },
+  {
+    "Framework": "Linkedin",
+    "Stars": 50,
+    "Released": 2016
+  },
+  {
+    "Framework": "Facebook",
+    "Stars": 26,
+    "Released": 2010
+  },
+  {
+    "Framework": "Netflix",
+    "Stars": 50,
+    "Released": 2011
+  }
+]
