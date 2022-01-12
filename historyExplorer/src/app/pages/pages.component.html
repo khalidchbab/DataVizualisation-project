@@ -1,0 +1,118 @@
+<div class="body_overlay">
+</div>
+<div class="page_wrapper">
+
+    <section class="hero_banner_section d-flex align-items-center mb-130" data-bgimg="assets/img/bg/hero-bg1.webp">
+        <div class="container">
+            <div class="hero_banner_inner">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <div class="hero_content">
+                            <h1 class="wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="1.1s">Journey through the web<br>
+                                Explore Others Journeies Now.</h1>
+                            <p class="wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="1.2s">Everyone on the web has a different journey and different habbits, Are you ready to explore how similar your's to others ?</p>
+                            <a class="btn btn-link wow fadeInUp" data-wow-delay="0.3s" data-wow-duration="1.3s" href="all-game.html">Yes Take Me Now <img src="assets/img/icon/arrrow-icon.webp" alt=""> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        <div class="hero_position_img">
+            <img src="assets/img/bg/hero-position-img.png" alt="">
+        </div>
+    </section>
+    <section class="gaming_world_section mb-140">
+        <div class="container">
+            <div class="section_title text-center wow fadeInUp mb-60" data-wow-delay="0.1s" data-wow-duration="1.1s">
+                <h2>Before We Start Our Journey<br>
+                    Choose Your Champion.</h2>
+            </div>
+
+            <section class="player_list_section mb-125">
+              <div class="container">
+                  <div class="row mb-n50">
+                      <div class="col-lg-4 col-md-6 col-12 mb-50" *ngIf="this.choose1">
+                          <div class="player_list_single_item wow fadeInLeft" data-wow-delay="0.1s" data-wow-duration="1.1s" (click)="choosed(1)">
+                              <div class="top">
+                                  <a class="image" href=""><img src="assets/img/player/list/player-1.webp" alt=""></a>
+                                  <div class="overlay">
+                                      <div class="social-link">
+                                          <p>I want a "Stage" PLS ...... I can even cook... !</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="content">
+                                  <h4 class="title"><a href="player-details.html">Adnane DR</a></h4>
+                                  <h5 class="level-text">The Looking for Internship GUY</h5>
+  
+                                  <div class="content-shape-img">
+                                      <img src="assets/img/others/tam-text-shape.webp" alt="">
+                                      <img src="assets/img/others/tam-text-shape2.webp" alt="">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6 col-12 mb-50" *ngIf="this.choose2" (click)="choosed(2)">
+                          <div class="player_list_single_item wow fadeInLeft" data-wow-delay="0.2s" data-wow-duration="1.1s">
+                              <div class="top">
+                                  <a class="image" href=""><img src="assets/img/player/list/player-2.webp" alt=""></a>
+                                  <div class="overlay">
+                                      <div class="social-link">
+                                        <p>StackOverflow, Github is Life</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="content">
+                                  <h4 class="title"><a href="player-details.html">Khalid CH</a></h4>
+                                  <h5 class="level-text">The Nerd</h5>
+  
+                                  <div class="content-shape-img">
+                                      <img src="assets/img/others/tam-text-shape.webp" alt="">
+                                      <img src="assets/img/others/tam-text-shape2.webp" alt="">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6 col-12 mb-50"  *ngIf="this.choose3" (click)="choosed(3)"> 
+                          <div class="player_list_single_item wow fadeInLeft" data-wow-delay="0.3s" data-wow-duration="1.1s">
+                              <div class="top">
+                                  <a class="image" href=""><img src="assets/img/player/list/player-3.webp" alt=""></a>
+                                  <div class="overlay">
+                                      <div class="social-link">
+                                          <p>Translate this GOOOOGLE</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="content">
+                                  <h4 class="title"><a href="player-details.html">Khalid OUH</a></h4>
+                                  <h5 class="level-text">Translate, Translate, Translate ....</h5>
+  
+                                  <div class="content-shape-img">
+                                      <img src="assets/img/others/tam-text-shape.webp" alt="">
+                                      <img src="assets/img/others/tam-text-shape2.webp" alt="">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-12 mb-50" *ngIf="this.charachterChoosen">
+                        <app-radar></app-radar>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-2 mb-50" *ngIf="this.charachterChoosen">
+                        <div class="bk-btn" (click)="redoCharachter()"><div class="bk-btn-triangle"></div><div class="bk-btn-bar"></div></div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+            
+        </div>
+    </section>
+    <section class="player_list_section mb-125" *ngIf="this.charachterChoosen">
+      <div class="container">
+        <app-bar-chart></app-bar-chart>
+      </div>
+    </section>
+</div>
+<footer class="footer_widgets">
+</footer>
+
+

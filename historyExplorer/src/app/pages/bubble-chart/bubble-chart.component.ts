@@ -66,7 +66,7 @@ export class BubbleChartComponent {
   private margin = 50;
   private width = 750;
   private height = 400;
-
+  xScale = d3.scaleLinear()
   constructor(private dataService: DataService,
     private ouhmaidData: OuhmaidService,
     private adnaneData: PieChartService,
@@ -150,7 +150,7 @@ export class BubbleChartComponent {
     sortable.sort(function (a, b) {
       return b[1] - a[1];
     });
-    return sortable.slice(0, 30)
+    return sortable.slice(0, 10)
   }
 
   drawCircles(data: any[]) {
@@ -162,6 +162,10 @@ export class BubbleChartComponent {
 
     let rScale = d3.scaleLinear().domain([0, data[0][1]])
       .range([20, 100]);
+    console.log(data[0][1]);
+    
+    this.xScale.domain([0, data[0][1]])
+      .range([20, 500]);
 
     this.data = this.data.map((item: any, index: any) => ({
       ...item,
@@ -189,7 +193,7 @@ export class BubbleChartComponent {
         tootltip.transition()
           .duration(200)
           .style('opacity', .9);
-        tootltip.html('Website : ' + d.Framework + '<br/>' + 'Visited : ' + d[1])
+        tootltip.html('Website : ' + d[0] + '<br/>' + 'Visited : ' + d[1])
           .style('left', (event.pageX + 30) + 'px')
           .style('top', (event.pageY + 50) + 'px');
       }).on('mouseout', (event: any, d: any) => {
@@ -211,7 +215,7 @@ export class BubbleChartComponent {
 
 
     items.append('text')
-      .text((d: any) => d.Framework)
+      .text((d: any) => d[0])
       .attr('text-anchor', 'middle')
       .attr('alignment-baseline', 'middle')
 
@@ -221,19 +225,19 @@ export class BubbleChartComponent {
   checkIntersection(nodes: any, node: any, angle: any, radius: any) {
     const x = radius * Math.sin(angle);
     const y = radius * -Math.cos(angle);
-    return nodes.some((n: any) => Math.hypot(n.x - x, n.y - y) <= n.Stars + node.Stars);
+    return nodes.some((n: any) => Math.hypot(n.x - x, n.y - y) <= n[1] + node[1]);
   };
 
 
   buildSpiralLayout(nodes: any[]) {
     const ordered = nodes.sort((a, b) => a[1] - b[1]);
-    let angle = -10;
-    let radius = 100;
+    let angle = 0;
+    let radius = 10;
     return ordered.reduce((all, node, index) => {
       angle = (index === 0) ? 0 : angle + Math.PI / 3;
       while (this.checkIntersection(all, node, angle, radius)) radius++;
-      const x = radius * Math.sin(angle) + 200;
-      const y = radius * -Math.cos(angle) +150;
+      const x = this.xScale(radius * Math.sin(angle));
+      const y = this.xScale(radius * -Math.cos(angle));
       all.push({
         ...node,
         x,

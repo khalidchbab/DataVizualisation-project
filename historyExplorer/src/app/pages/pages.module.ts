@@ -18,6 +18,8 @@ import { DayChartComponent } from './day-chart/day-chart.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
 import { MainPageComponent } from './main-page/main-page.component';
+import { RadarComponent } from './radar/radar.component';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { MainPageComponent } from './main-page/main-page.component';
     GraphChartComponent,
     BubbleChartComponent,
     DayChartComponent,
-    MainPageComponent
+    MainPageComponent,
+    RadarComponent
   ],
   imports: [
     PagesRoutingModule,
@@ -40,8 +43,8 @@ import { MainPageComponent } from './main-page/main-page.component';
     MatAutocompleteModule,
     MatInputModule,
     MatIconModule,
-    MatSelectModule
-    
+    MatSelectModule,
+    NgApexchartsModule
   ]
 })
 export class PagesModule { }
