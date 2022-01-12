@@ -17,6 +17,8 @@ import {MatInputModule} from '@angular/material/input';
 import { DayChartComponent } from './day-chart/day-chart.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
+import { RadarComponent } from './radar/radar.component';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import {MatSelectModule} from '@angular/material/select';
     PieChartComponent,
     GraphChartComponent,
     BubbleChartComponent,
-    DayChartComponent
+    DayChartComponent,
+    RadarComponent
   ],
   imports: [
     PagesRoutingModule,
@@ -38,8 +41,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatAutocompleteModule,
     MatInputModule,
     MatIconModule,
-    MatSelectModule
-    
+    MatSelectModule,
+    NgApexchartsModule
   ]
 })
 export class PagesModule { }
