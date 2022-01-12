@@ -173,6 +173,7 @@ export class GraphChartComponent {
   }
 
   determineImage(website:string){
+    let weHave = ["google","youtube","airbnb","beeple","blabla","claroline","cnrs","cpanel","deepl","facebook","flaticone","jobteaser","welcometothejungle","instagram",]
     let parts  = website.split(".")
     switch (parts[0]) {
       case 'docs':
@@ -204,10 +205,11 @@ export class GraphChartComponent {
     }
 
     if(parts[0] == "www" && parts.length === 3){
+      if(weHave.includes(parts[1]))
       return "./../../assets/logos/"+parts[1]+".png"
     }
 
-    return "./../../assets/logos/airbnb.png"
+    return "./../../assets/logos/default.png"
 
 
     
