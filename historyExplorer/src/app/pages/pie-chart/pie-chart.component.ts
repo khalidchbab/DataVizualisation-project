@@ -1,12 +1,30 @@
 import {
+  DataService
+} from './../../services/data.service';
+import {
   Component,
   OnInit
 } from '@angular/core';
+import * as d3 from 'd3';
+import {
+  FormBuilder,
+  FormGroup
+} from '@angular/forms';
+import {
+  Observable,
+  of
+} from 'rxjs';
+import {
+  map,
+  startWith
+} from "rxjs/operators";
+import {
+  OuhmaidService
+} from 'src/app/services/ouhmaid.service';
 import {
   PieChartService
-} from './../../services/pie-chart.service';
-import * as d3 from 'd3';
-// import {PieChart} from "@d3/pie-chart" ; 
+} from 'src/app/services/pie-chart.service';
+
 
 @Component({
   selector: 'app-pie-chart',
@@ -34,10 +52,30 @@ export class PieChartComponent {
   private width = 900;
   private height = 600;
   private radius = Math.min(this.width, this.height) / 2;
-  constructor(private pieChartService: PieChartService) {
+  DynamicData: any;
+  
+  form: FormGroup;
+  options: any = ["Khalid CH", "Adnane DR", "Khalid OUH"];
+  filteredOptions: Observable < string[] > ;
 
-    this.pieChartService.get_test().then((res: any) => {
+  constructor(private dataService: DataService,
+    private ouhmaidData: OuhmaidService,
+    private adnaneData: PieChartService,
+    private builder: FormBuilder) {
+
+      this.form = builder.group({
+        start: builder.control(null),
+        end: builder.control(null),
+        person: builder.control("Khalid CH")
+      });
+      this.filteredOptions = of (this.options);
+      this.filteredOptions = this.form.controls.person.valueChanges
+        .pipe(startWith(''), map((filterString: any) => this.filter(filterString)));
+    this.dataService.getRealHistory().then((res: any) => {
       this.data = res
+      this.DynamicData = this.filterDate(this.data, "01/01/2022", "01/10/2022")
+      this.DynamicData = this.reduceData(this.DynamicData);
+
       this.svg = d3.select("figure#pie")
         .append("svg")
         .attr("width", this.width)
@@ -48,57 +86,119 @@ export class PieChartComponent {
           "translate(" + this.width / 2 + "," + this.height / 2 + ")"
         );
 
-
-      // console.log(this.data);
-
-      this.change(this.data);
-
-      d3.select("#time")
-        .on("change", () => {
-          this.change(this.randomData());
-
-        })
-
-      var users = ['#user1', '#user2', '#user3']
-
-      users.forEach(el => {
-        d3.select(el)
-          .on("input", () => {
-            this.change(this.randomData());
-
-          })
-      })
-
-
+        this.form.controls.end.valueChanges.subscribe(() => {
+          this.changed()
+        });
+    
+        this.form.controls.person.valueChanges.subscribe(() => {
+          this.changeData()
+        });
+    
+        this.change(this.DynamicData);
     })
 
-
-
   }
 
-  randomData() {
-    var labels = this.data.map((d: any) => d.Website);
-    // console.log(labels);
+  private filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter((optionValue: any) => optionValue.toLowerCase().includes(filterValue));
+  }
 
-    return labels.map(function (label: any) {
-      return {
-        Website: label,
-        Count: Math.floor(Math.random()*1000)
+  changeData() {
+    if (this.form.controls.person.value == "Khalid CH") {
+      this.dataService.getRealHistory().then((res: any[]) => {
+        this.data = res
+        console.log("Khalid : ", this.data)
+        this.changed()
+      })
+    } else if(this.form.controls.person.value == "Adnane DR"){
+      this.adnaneData.getAdnaneRealHistory().then((res: any[]) => {
+        this.data = res
+        console.log("Adnane : ", this.data)
+        this.changed()
+      })
+    } else {
+      this.ouhmaidData.getOuhmaidRealHistory().then((res: any[]) => {
+        this.data = res
+        console.log("Ouhmaid : ", this.data)
+        this.changed()
+      })
+    }
+  }
+
+  changed() {
+    if (this.form.controls.end.value != null) {
+    let start = this.getDate(this.form.controls.start.value);
+    let end = this.getDate(this.form.controls.end.value);
+      this.DynamicData = this.data
+      this.DynamicData = this.filterDate(this.DynamicData, start, end)
+      this.DynamicData = this.reduceData(this.DynamicData);
+      this.change(this.DynamicData)
+    } else if(this.form.controls.end.value == null && this.form.controls.start.value == null) {
+      this.DynamicData = this.data
+      this.DynamicData = this.filterDate(this.DynamicData, "01/01/2021", "01/10/2022")
+      this.DynamicData = this.reduceData(this.DynamicData);
+      this.change(this.DynamicData)
+    }
+  }
+
+  getDate(date: Date) {
+    if (date == null)
+      return null;
+    console.log(date)
+    let fixNumber = (n: number) => (n > 9 ? n + "" : "0" + n);
+    return `${fixNumber(date.getMonth() + 1)}/${fixNumber(date.getDate())}/${date.getFullYear()}`;
+  }
+
+
+  // randomData() {
+  //   var labels = this.data.map((d: any) => d[0]);
+  //   // console.log(labels);
+
+  //   return labels.map(function (label: any) {
+  //     return {
+  //       Website: label,
+  //       Count: Math.floor(Math.random() * 1000)
+  //     }
+  //   });
+  // }
+
+  reduceData(data: any) {
+    let counts = data.reduce((p: any, c: any) => {
+      let name = c.website;
+      if (!p.hasOwnProperty(name)) {
+        p[name] = 0;
       }
+      p[name]++;
+      return p;
+    }, {});
+    let sortable = [];
+    for (let entry in counts) {
+      sortable.push([entry, counts[entry]]);
+    }
+
+    sortable.sort(function (a, b) {
+      return b[1] - a[1];
     });
-
-    // this.pieChartService.get_test().then((res: any) => {
-    //   this.data = res
-    // })
-
-    // return this.data ; 
+    return sortable.slice(0, 6)
   }
+
+  filterDate(data: any, start: any, end: any) {
+    start = new Date(start);
+    end = new Date(end);
+    let filterByData = data.filter((d: any) => {
+      return (start <= new Date(d.date) && new Date(d.date) <= end)
+    });
+    return filterByData;
+  }
+
+
 
 
   change(data: any) {
     this.svg.selectAll("*").remove()
 
-    console.log('I\'m inside change function  ! ');
+    // console.log('I\'m inside change function  ! ');
     // console.log(data);
 
     // data = this.randomData();
@@ -115,13 +215,13 @@ export class PieChartComponent {
     // console.log(data.map((d: any) => d.Count.toString()));
 
     this.colors = d3.scaleOrdinal()
-      .domain(data.map((d: any) => d.Count.toString()))
+      .domain(data.map((d: any) => d[1].toString()))
       .range(d3.schemeCategory10);
 
     var pie = d3.pie()
       .sort(null)
-      .value( (d: any) => {
-        return d.Count;
+      .value((d: any) => {
+        return d[1];
       });
 
     var arc = d3.arc()
@@ -134,45 +234,47 @@ export class PieChartComponent {
 
     // this.svg.attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
     const tooltip = d3.select("#pie")
-        .append("div")
-        .attr("class","d3-tooltip")
-        .style("position", "absolute")
-        .style("z-index", "100")
-        .style("visibility", "hidden")
-        .style("padding", "15px")
-        .style("background", "rgba(0,0,0,0.6)")
-        .style("border-radius", "5px")
-        .style("color", "#fff")
-        .text("a simple tooltip");
+      .append("div")
+      .attr("class", "d3-tooltip")
+      .style("position", "absolute")
+      .style("z-index", "100")
+      .style("visibility", "hidden")
+      .style("padding", "15px")
+      .style("background", "rgba(0,0,0,0.6)")
+      .style("border-radius", "5px")
+      .style("color", "#fff")
+      .text("a simple tooltip");
 
     var slice = this.svg.select(".slices").selectAll("path.slice")
-      .data(pie(data),(d:any)=>{
-        return d.Website
+      .data(pie(data), (d: any) => {
+        return d[0]
       }).enter()
       .insert("path")
       .style("fill", (d: any) => {
-        return this.colors(d.data.Website);
+        console.log(d)
+        return this.colors(d.data[0]);
       })
       .attr("class", "slice")
-      .on('mouseover',  (event :any, d :any ) => {;
-        
-        tooltip.html(`Data: ${d.value}`).style("visibility", "visible");
+      .on('mouseover', (event: any, d: any) => {
+        ;
+
+        tooltip.html(`Data: ${d.data[1]}`).style("visibility", "visible");
         d3.select(event.currentTarget).transition()
           .duration(50)
           .attr('opacity', '.75')
       })
-      .on("mousemove",(event: any, d: any) =>{
+      .on("mousemove", (event: any, d: any) => {
         tooltip
-          .style("top", (event.pageY-10)+"px")
-          .style("left",(event.pageX+10)+"px");
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
       })
-      .on('mouseout', (event :any, d :any ) => {
+      .on('mouseout', (event: any, d: any) => {
         tooltip.style('visibility', 'hidden')
         d3.select(event.currentTarget).transition()
           .duration(50)
           .attr('opacity', '1')
       });
-    console.log(slice)
+    // console.log(slice)
     slice
       .transition().duration(1000)
       .attrTween("d", (d: any) => {
@@ -194,13 +296,13 @@ export class PieChartComponent {
     }
 
     var text = this.svg.select(".labels").selectAll("text")
-      .data(pie(data),(d:any)=>{
-        return d.Website
+      .data(pie(data), (d: any) => {
+        return d[0]
       }).enter()
       .append("text")
       .attr("dy", ".35em")
       .text(function (d: any) {
-        return d.data.Website;
+        return d.data[0];
       });
 
     text.transition().duration(1000)
@@ -231,8 +333,8 @@ export class PieChartComponent {
     /* ------- SLICE TO TEXT POLYLINES -------*/
 
     var polyline = this.svg.select(".lines").selectAll("polyline")
-      .data(pie(data),(d:any)=>{
-        return d.Website
+      .data(pie(data), (d: any) => {
+        return d[0]
       }).enter()
       .append("polyline")
 
