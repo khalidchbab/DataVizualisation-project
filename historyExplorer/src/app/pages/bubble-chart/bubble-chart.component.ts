@@ -85,7 +85,6 @@ export class BubbleChartComponent {
       this.data = res
       this.data = this.reduceData(this.data);
 
-      console.log(this.data)
       this.svg = d3.select("figure#bubble")
         .append("svg")
         .attr("width", this.width + (50 * 4))
@@ -99,28 +98,6 @@ export class BubbleChartComponent {
 
 
   }
-
-  /*  changeData() {
-     if (this.form.controls.person.value == "Khalid CH") {
-       this.dataService.getRealHistory().then((res: any[]) => {
-         this.data = res
-         console.log("Khalid : ", this.data)
-         this.changed()
-       })
-     } else if(this.form.controls.person.value == "Adnane DR"){
-       this.adnaneData.getAdnaneRealHistory().then((res: any[]) => {
-         this.data = res
-         console.log("Adnane : ", this.data)
-         this.changed()
-       })
-     } else {
-       this.ouhmaidData.getOuhmaidRealHistory().then((res: any[]) => {
-         this.data = res
-         console.log("Ouhmaid : ", this.data)
-         this.changed()
-       })
-     }
-   } */
 
 
 
@@ -246,47 +223,6 @@ export class BubbleChartComponent {
       return all;
     }, []);
   }
-
-
-
-  /* drawCircles(data: any[])
-    {
-        let y = d3.scaleLinear().domain([0,1000000]).range([10,0])
-      this.g=this.svg.selectAll("g")
-      .data(data)
-      .enter()
-      .append("g")
-      .attr("transform", function(d: any, i: any) {
-         return "translate(0,0)";
-      })
-  
-      this.g.append("circle").attr("cx", function(d: any, i: any) {
-          console.log(i)
-          return i*75 + 50;
-       })
-       .attr("cy", function(d: any, i: any) {
-          return 75;
-       })
-       .attr("r", function(d: any) {
-          return d[1];
-       })
-       
-       .attr("fill", (d: any, i: any) =>{
-          return this.colors[i];
-       })
-       
-       this.g.append("text").attr("x", function(d: any, i: any) {
-          return i * 75 + 25;
-       })
-       
-       .attr("y", 80)
-       .attr("stroke", "teal")
-       .attr("font-size", "10px")
-       .attr("font-family", "sans-serif").text(function(d: any) {
-          return d.Framework;
-       });
-  
-    } */
 
 
 

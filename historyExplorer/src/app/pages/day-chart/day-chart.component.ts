@@ -380,11 +380,7 @@ export class DayChartComponent implements OnInit {
     maxData = d3.max(data, (d: any) => {
       return d.value;
     })
-    
-    console.log('Daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaay Chart');
-    
-    console.log(typeof(maxData));
-    
+        
     var colorScale = d3.scaleLinear<string>()
     .domain([0, maxData/2 , maxData])
     // .range(color);

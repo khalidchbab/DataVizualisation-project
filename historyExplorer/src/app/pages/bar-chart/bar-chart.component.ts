@@ -135,7 +135,6 @@ export class BarChartComponent {
   getDate(date: Date) {
     if (date == null)
       return null;
-    console.log(date)
     let fixNumber = (n: number) => (n > 9 ? n + "" : "0" + n);
     return `${fixNumber(date.getMonth() + 1)}/${fixNumber(date.getDate())}/${date.getFullYear()}`;
   }
