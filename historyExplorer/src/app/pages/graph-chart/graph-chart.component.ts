@@ -3,6 +3,7 @@ import {
 } from './../../services/data.service';
 import {
   Component,
+  Input,
   OnInit
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -46,10 +47,16 @@ export class GraphChartComponent {
   nodes : any; 
   links : any; 
   form: FormGroup;
-  options: any = ["Khalid CH", "Adnane DR", "Khalid OUH"];
+  options: any = ["Adnane DR","Khalid CH",  "Khalid OUH"];
   filteredOptions: Observable < string[] > ;
   data: any;
 
+  @Input() item:number = 0;
+
+  ngOnChanges() {
+        
+    this.changeData();    
+}
 
   constructor(private dataService: DataService,
     private ouhmaidData: OuhmaidService,
@@ -80,14 +87,9 @@ export class GraphChartComponent {
         .append("svg")
         .attr("width", this.width)
         .attr("height", this.height)
-        // .attr(
-        //   "transform",
-        //   "translate(" + this.width / 2 + "," + this.height / 2 + ")"
-        // );
 
 
       this.color = d3.scaleOrdinal(d3.schemeCategory10);
-      // this.drawGraph(this.graph)
 
       this.form.controls.end.valueChanges.subscribe(() => {
         this.changed()
@@ -101,83 +103,6 @@ export class GraphChartComponent {
 
       this.drawGraph(this.graph);
     })
-
-    // this.dataService.getRealHistory().then((res: any) => {
-      // let test = this.reduceData(res)
-      // let test = this.basculeData(res)
-
-      // for(var el in test){
-      //   console.log(test[el]);
-
-      // }
-      // test:
-      // console.log(test.);
-
-    // })
-
-    // this.graphChart.get_graph().then((res: any) => {
-
-    //   this.graph = res;
-    //   this.svg = d3.select("figure#graph")
-    //     .append("svg")
-    //     .attr("width", this.width)
-    //     .attr("height", this.height);
-    //   // .attr(
-    //   //   "transform",
-    //   //   "translate(" + this.width / 2 + "," + this.height / 2 + ")"
-    //   // );
-
-    //   this.color = d3.scaleOrdinal(d3.schemeCategory10);
-    //   this.drawGraph(this.graph)
-    //   var legendAux = ['Education', 'Coding', 'SocialMedia', 'Search', 'Other', 'Entertainment']
-    //   // var legendAux = []  
-
-    //   this.svg.append('g')
-    //     .selectAll('rect')
-    //     // .selectAll("circle")
-    //     .data(legendAux)
-    //     .enter()
-    //     // .append("circle")
-    //     .append("rect")
-    //     // .attr("cx", 5)
-    //     // .attr("cy",(d: any) => { return ((legendAux.indexOf(d) + 1)*20) +30; })
-    //     // .attr("r", 5)
-    //     .attr("x", 0)
-    //     .attr("y", (d: any) => {
-    //       return ((legendAux.indexOf(d) + 1) * 20) + 25;
-    //     })
-    //     .attr("width", 10)
-    //     .attr("height", 10)
-    //     .style("fill", (d: any) => {
-    //       return this.color(legendAux.indexOf(d) + 1);
-    //     })
-
-    //   this.svg.append('g')
-    //     .selectAll('rect')
-    //     .data(legendAux)
-    //     .enter()
-    //     .append("text")
-    //     .attr("x", 15)
-    //     .attr("y", (d: any) => {
-    //       return ((legendAux.indexOf(d) + 1) * 20) + 30;
-    //     })
-    //     .text((d: any) => (d))
-    //     .style("font-size", "15px")
-    //     .attr("alignment-baseline", "middle")
-
-    //   var users = ['#user1', '#user2', '#user3']
-
-    //   users.forEach(el => {
-    //     // d3.select("figure#graph").exit().remove();
-
-    //     d3.select(el)
-    //       .on("change", () => {
-    //         this.cleanSVG();
-    //         this.drawGraph(this.randomData());
-    //       })
-    //   })
-
-    // })
 
   }
 
@@ -248,6 +173,7 @@ export class GraphChartComponent {
   }
 
   determineImage(website:string){
+    let weHave = ["google","youtube","airbnb","beeple","blabla","claroline","cnrs","cpanel","deepl","facebook","flaticone","jobteaser","welcometothejungle","instagram",]
     let parts  = website.split(".")
     switch (parts[0]) {
       case 'docs':
@@ -279,14 +205,16 @@ export class GraphChartComponent {
     }
 
     if(parts[0] == "www" && parts.length === 3){
+      if(weHave.includes(parts[1]))
       return "./../../assets/logos/"+parts[1]+".png"
     }
 
-    return "./../../assets/logos/airbnb.png"
+    return "./../../assets/logos/default.png"
 
 
     
   }
+  
 
 
   reduceData(data: any) {
@@ -323,12 +251,12 @@ export class GraphChartComponent {
   }
   
   changeData() {
-    if (this.form.controls.person.value == "Khalid CH") {
+    if (this.options[this.item] == "Khalid CH") {
       this.dataService.getRealHistory().then((res: any[]) => {
         this.data = res
         this.changed()
       })
-    } else if(this.form.controls.person.value == "Adnane DR"){
+    } else if(this.options[this.item] == "Adnane DR"){
       this.adnaneData.getAdnaneRealHistory().then((res: any[]) => {
         this.data = res
         this.changed()
@@ -340,6 +268,7 @@ export class GraphChartComponent {
       })
     }
   }
+
 
   changed() {
     if (this.form.controls.end.value != null) {

@@ -3,7 +3,7 @@
     <h2>Switching between websites</h2>
     <form [formGroup]="form" (ngModelChange)="changed()" style="text-align: end;">
       <div class="row">
-        <div class="col">
+        <div class="col-12">
           <mat-form-field appearance="fill">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
@@ -14,8 +14,8 @@
             <mat-date-range-picker #picker></mat-date-range-picker>
           </mat-form-field>
         </div>
-        <div class="col">
-          <mat-form-field appearance="fill">
+        <div class="col-12">
+          <mat-form-field appearance="fill" style="display: none;">
             <mat-select formControlName="person">
               <mat-option [value]="item" *ngFor="let item of options">{{item}}</mat-option>
             </mat-select>

@@ -3,6 +3,7 @@ import {
 } from './../../services/data.service';
 import {
   Component,
+  Input,
   OnInit
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -32,7 +33,7 @@ import {
   styleUrls: ['./bar-chart.component.scss']
 })
 export class BarChartComponent {
-
+  @Input() item:number = 0;
   data: any;
   svg: any;
   form: FormGroup
@@ -42,7 +43,7 @@ export class BarChartComponent {
   DynamicData: any;
   x = d3.scaleBand()
   y = d3.scaleLinear()
-  options: any = ["Khalid CH", "Adnane DR", "Khalid OUH"];
+  options: any = ["Adnane DR","Khalid CH",  "Khalid OUH"];
   filteredOptions: Observable < string[] > ;
 
   max:Date = new Date("01/10/2022")
@@ -84,23 +85,26 @@ export class BarChartComponent {
 
   }
 
+  ngOnChanges() {
+        
+    this.changeData();    
+}
+
+
   changeData() {
-    if (this.form.controls.person.value == "Khalid CH") {
+    if (this.options[this.item] == "Khalid CH") {
       this.dataService.getRealHistory().then((res: any[]) => {
         this.data = res
-        console.log("Khalid : ", this.data)
         this.changed()
       })
-    } else if(this.form.controls.person.value == "Adnane DR"){
+    } else if(this.options[this.item] == "Adnane DR"){
       this.adnaneData.getAdnaneRealHistory().then((res: any[]) => {
         this.data = res
-        console.log("Adnane : ", this.data)
         this.changed()
       })
     } else {
       this.ouhmaidData.getOuhmaidRealHistory().then((res: any[]) => {
         this.data = res
-        console.log("Ouhmaid : ", this.data)
         this.changed()
       })
     }
@@ -178,16 +182,19 @@ export class BarChartComponent {
       .call(d3.axisBottom(this.x))
       .selectAll("text")
       .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
+      .style("text-anchor", "end")
+      .style("color", "white");
 
     // Draw the Y-axis on the DOM
     if (data.length != 0)
       this.svg.append("g")
-      .call(d3.axisLeft(this.y));
+      .call(d3.axisLeft(this.y))
+      .style("color", "white");
 
     const tootltip = d3.select(".tootltipEmp").append('div')
       .attr('class', 'tooltip')
-      .style('opacity', 0);
+      .style('opacity', 0)
+      
 
 
     // Create and fill the bars
@@ -207,7 +214,7 @@ export class BarChartComponent {
         return this.x(d[0])
       })
       .attr("width", this.x.bandwidth())
-      .attr("fill", "#d04a35")
+      .attr("fill", "#ecd582")
       .attr('y', (d: any) => {
         return this.height
       })

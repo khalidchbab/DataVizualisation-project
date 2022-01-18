@@ -1,6 +1,7 @@
 import {
   Component,
   Injectable,
+  Input,
   OnInit
 } from '@angular/core';
 import {
@@ -80,11 +81,18 @@ export class DayChartComponent implements OnInit {
   DynamicData: any;
   x = d3.scaleBand()
   y = d3.scaleLinear()
-  options: any = ["Khalid CH", "Adnane DR", "Khalid OUH"];
+  options: any = ["Adnane DR","Khalid CH",  "Khalid OUH"];
   hours: string[];
 
   max:Date = new Date("01/10/2022")
   min:Date = new Date("10/13/2021")
+  @Input() item:number = 0;
+
+  ngOnChanges() {
+        
+    this.changeData();    
+}
+
   
   rangeFilter: DateFilterFn<Date> = (date: Date | null) => {
     return date?.getDay() ? date?.getDay() === 3 && date < this.max && date > this.min :false;
@@ -125,12 +133,12 @@ export class DayChartComponent implements OnInit {
   }
 
   changeData() {
-    if (this.form.controls.person.value == "Khalid CH") {
+    if (this.options[this.item] == "Khalid CH") {
       this.dataService.getRealHistory().then((res: any[]) => {
         this.data = res
         this.changed()
       })
-    } else if(this.form.controls.person.value == "Adnane DR"){
+    } else if(this.options[this.item] == "Adnane DR"){
       this.adnaneData.getAdnaneRealHistory().then((res: any[]) => {
         this.data = res
         this.changed()
@@ -142,6 +150,8 @@ export class DayChartComponent implements OnInit {
       })
     }
   }
+
+  
 
 
   getDate(date: Date) {
@@ -263,10 +273,11 @@ export class DayChartComponent implements OnInit {
     })
     myVars.sort(this.compareDecimals)
 
-    let xScale = d3.scaleBand().range([0, this.width]).domain(myGroups).padding(0.1);
+    let xScale = d3.scaleBand().range([0, this.width]).domain(myGroups).padding(0.2);
 
     this.svg.append("g")
-      .style("font-size", 15)
+      .style("font-size", 11)
+      .style("color", "white")
       .attr("transform", "translate(0," + (this.height + 10) + ")")
       .call(d3.axisBottom(xScale).tickSize(0))
       .select(".domain").remove()
@@ -275,15 +286,16 @@ export class DayChartComponent implements OnInit {
     let yScale = d3.scaleBand()
       .range([this.height, 0])
       .domain(myVars)
-      .padding(0.05);
+      .padding(0.2);
 
     this.svg.append("g")
       .style("font-size", 15)
+      .style("color", "white")
       .call(d3.axisLeft(yScale).tickSize(0))
       .select(".domain").remove()
 
     let myColor = d3.scaleSequential()
-      .interpolator(d3.interpolateBlues)
+      .interpolator(d3.interpolateYlOrRd)
       .domain([1, 100])
 
     let tooltip = d3.select("#heatmap")
@@ -344,7 +356,8 @@ export class DayChartComponent implements OnInit {
       .attr("y", -50)
       .attr("text-anchor", "left")
       .style("font-size", "22px")
-      .text("Quand est-ce que j'utilise le plus mon PC ?");
+      .style("fill","white")
+      .text("When Do I surf the internet ?");
 
     // Add subtitle to graph
     this.svg.append("text")
@@ -352,9 +365,9 @@ export class DayChartComponent implements OnInit {
       .attr("y", -20)
       .attr("text-anchor", "left")
       .style("font-size", "14px")
-      .style("fill", "grey")
+      .style("fill", "white")
       .style("max-width", 400)
-      .text("Ce graphique représente le nombre horaire de sites visités en corrélation de jours");
+      .text("This graph shows us the correleation between time of the day and intensity of activities of the user");
 
   }
 

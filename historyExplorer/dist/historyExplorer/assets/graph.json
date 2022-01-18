@@ -1,0 +1,575 @@
+{
+    "nodes": [
+        {
+            "id": "www.google.com",
+            "Count": 3410,
+            "group": 4,
+            "image": "./../../assets/logos/google.png"
+        },
+        {
+            "id": "www.youtube.com",
+            "Count": 2262,
+            "group": 6,
+            "image": "./../../assets/logos/youtube.png"
+        },
+        {
+            "id": "www.linkedin.com",
+            "Count": 1068,
+            "group": 3,
+            "image": "./../../assets/logos/linkedin.png"
+        },
+        {
+            "id": "www.facebook.com",
+            "Count": 530,
+            "group": 3,
+            "image": "./../../assets/logos/facebook.png"
+        },
+        {
+            "id": "www.google.fr",
+            "Count": 487,
+            "group": 4,
+            "image": "./../../assets/logos/google.png"
+        },
+        {
+            "id": "github.com",
+            "Count": 398,
+            "group": 2,
+            "image": "./../../assets/logos/github.png"
+        },
+        {
+            "id": "mail.google.com",
+            "Count": 384,
+            "group": 4,
+            "image": "./../../assets/logos/gmail.png"
+        },
+        {
+            "id": "docs.google.com",
+            "Count": 165,
+            "group": 4,
+            "image": "./../../assets/logos/docs.png"
+        },
+        {
+            "id": "stackoverflow.com",
+            "Count": 156,
+            "group": 2,
+            "image": "./../../assets/logos/stackOverflow.png"
+        },
+        {
+            "id": "www.flaticon.com",
+            "Count": 109,
+            "group": 4,
+            "image": "./../../assets/logos/flaticone.png"
+        },
+        {
+            "id": "sflix.to",
+            "Count": 92,
+            "group": 6,
+            "image": "./../../assets/logos/netflix.png"
+        },
+        {
+            "id": "www.leboncoin.fr",
+            "Count": 89,
+            "group": 4,
+            "image": "./../../assets/logos/leboncoin.png"
+        },
+        {
+            "id": "fr.indeed.com",
+            "Count": 71,
+            "group": 1,
+            "image": "./../../assets/logos/indeed.png"
+        },
+        {
+            "id": "www.blablacar.fr",
+            "Count": 71,
+            "group": 6,
+            "image": "./../../assets/logos/blabla.png"
+        },
+        {
+            "id": "perso.liris.cnrs.fr",
+            "Count": 58,
+            "group": 1,
+            "image": "./../../assets/logos/cnrs.png"
+        },
+        {
+            "id": "etu.univ-lyon1.fr",
+            "Count": 52,
+            "group": 1
+        },
+        {
+            "id": "drive.google.com",
+            "Count": 48,
+            "group": 4,
+            "image": "./../../assets/logos/drive.png"
+        },
+        {
+            "id": "univ-lyon1.jobteaser.com",
+            "Count": 47,
+            "group": 1,
+            "image": "./../../assets/logos/jobTeaser.png"
+        },
+        {
+            "id": "tomuss.univ-lyon1.fr",
+            "Count": 45,
+            "group": 1,
+            "image": "./../../assets/logos/lyon.png"
+        },
+        {
+            "id": "portal.univ-lyon1.fr",
+            "Count": 44,
+            "group": 1,
+            "image": "./../../assets/logos/lyon.png"
+        },
+        {
+            "id": "www.airbnb.fr",
+            "Count": 42,
+            "group": 5,
+            "image": "./../../assets/logos/airbnb.png"
+        },
+        {
+            "id": "scholar.google.com",
+            "Count": 40,
+            "group": 4
+        },
+        {
+            "id": "towardsdatascience.com",
+            "Count": 39,
+            "group": 4
+        },
+        {
+            "id": "accounts.google.com",
+            "Count": 39,
+            "group": 4
+        },
+        {
+            "id": "www.deepl.com",
+            "Count": 39,
+            "group": 4,
+            "image": "./../../assets/logos/deepl.png"
+        },
+        {
+            "id": "www.beeple-crap.com",
+            "Count": 37,
+            "group": 4,
+            "image": "./../../assets/logos/beeple.png"
+        },
+        {
+            "id": "adelb.univ-lyon1.fr",
+            "Count": 36,
+            "group": 1,
+            "image": "./../../assets/logos/lyon.png"
+        },
+        {
+            "id": "clarolineconnect.univ-lyon1.fr",
+            "Count": 35,
+            "group": 1,
+            "image": "./../../assets/logos/lyon.png"
+        },
+        {
+            "id": "localhost",
+            "Count": 33,
+            "group": 4
+        }
+    ],
+    "links": [
+        {
+            "source": "clarolineconnect.univ-lyon1.fr",
+            "target": "tomuss.univ-lyon1.fr",
+            "value": 4
+        },
+        {
+            "source": "www.google.fr",
+            "target": "adelb.univ-lyon1.fr",
+            "value": 7
+        },
+        {
+            "source": "etu.univ-lyon1.fr",
+            "target": "github.com",
+            "value": 4
+        },
+        {
+            "source": "accounts.google.com",
+            "target": "stackoverflow.com",
+            "value": 5
+        },
+        {
+            "source": "stackoverflow.com",
+            "target": "tomuss.univ-lyon1.fr",
+            "value": 3
+        },
+        {
+            "source": "www.flaticon.com",
+            "target": "clarolineconnect.univ-lyon1.fr",
+            "value": 5
+        },
+        {
+            "source": "tomuss.univ-lyon1.fr",
+            "target": "docs.google.com",
+            "value": 8
+        },
+        {
+            "source": "www.google.com",
+            "target": "etu.univ-lyon1.fr",
+            "value": 4
+        },
+        {
+            "source": "www.blablacar.fr",
+            "target": "www.airbnb.fr",
+            "value": 9
+        },
+        {
+            "source": "sflix.to",
+            "target": "fr.indeed.com",
+            "value": 7
+        },
+        {
+            "source": "etu.univ-lyon1.fr",
+            "target": "localhost",
+            "value": 4
+        },
+        {
+            "source": "www.leboncoin.fr",
+            "target": "www.leboncoin.fr",
+            "value": 4
+        },
+        {
+            "source": "towardsdatascience.com",
+            "target": "perso.liris.cnrs.fr",
+            "value": 4
+        },
+        {
+            "source": "localhost",
+            "target": "www.google.com",
+            "value": 6
+        },
+        {
+            "source": "adelb.univ-lyon1.fr",
+            "target": "mail.google.com",
+            "value": 5
+        },
+        {
+            "source": "www.google.com",
+            "target": "www.google.com",
+            "value": 4
+        },
+        {
+            "source": "towardsdatascience.com",
+            "target": "www.beeple-crap.com",
+            "value": 0
+        },
+        {
+            "source": "www.leboncoin.fr",
+            "target": "www.leboncoin.fr",
+            "value": 4
+        },
+        {
+            "source": "github.com",
+            "target": "www.flaticon.com",
+            "value": 2
+        },
+        {
+            "source": "www.google.fr",
+            "target": "docs.google.com",
+            "value": 3
+        },
+        {
+            "source": "www.youtube.com",
+            "target": "www.airbnb.fr",
+            "value": 8
+        },
+        {
+            "source": "portal.univ-lyon1.fr",
+            "target": "docs.google.com",
+            "value": 9
+        },
+        {
+            "source": "etu.univ-lyon1.fr",
+            "target": "stackoverflow.com",
+            "value": 7
+        },
+        {
+            "source": "etu.univ-lyon1.fr",
+            "target": "www.flaticon.com",
+            "value": 4
+        },
+        {
+            "source": "mail.google.com",
+            "target": "tomuss.univ-lyon1.fr",
+            "value": 1
+        },
+        {
+            "source": "www.airbnb.fr",
+            "target": "www.leboncoin.fr",
+            "value": 0
+        },
+        {
+            "source": "mail.google.com",
+            "target": "github.com",
+            "value": 4
+        },
+        {
+            "source": "clarolineconnect.univ-lyon1.fr",
+            "target": "adelb.univ-lyon1.fr",
+            "value": 4
+        },
+        {
+            "source": "www.airbnb.fr",
+            "target": "tomuss.univ-lyon1.fr",
+            "value": 3
+        },
+        {
+            "source": "www.leboncoin.fr",
+            "target": "etu.univ-lyon1.fr",
+            "value": 2
+        },
+        {
+            "source": "www.google.com",
+            "target": "www.deepl.com",
+            "value": 4
+        },
+        {
+            "source": "github.com",
+            "target": "tomuss.univ-lyon1.fr",
+            "value": 0
+        },
+        {
+            "source": "accounts.google.com",
+            "target": "clarolineconnect.univ-lyon1.fr",
+            "value": 4
+        },
+        {
+            "source": "accounts.google.com",
+            "target": "scholar.google.com",
+            "value": 6
+        },
+        {
+            "source": "portal.univ-lyon1.fr",
+            "target": "scholar.google.com",
+            "value": 2
+        },
+        {
+            "source": "www.beeple-crap.com",
+            "target": "perso.liris.cnrs.fr",
+            "value": 1
+        },
+        {
+            "source": "www.blablacar.fr",
+            "target": "www.google.com",
+            "value": 5
+        },
+        {
+            "source": "www.facebook.com",
+            "target": "localhost",
+            "value": 8
+        },
+        {
+            "source": "scholar.google.com",
+            "target": "mail.google.com",
+            "value": 0
+        },
+        {
+            "source": "www.facebook.com",
+            "target": "accounts.google.com",
+            "value": 5
+        },
+        {
+            "source": "www.flaticon.com",
+            "target": "www.google.fr",
+            "value": 4
+        },
+        {
+            "source": "towardsdatascience.com",
+            "target": "towardsdatascience.com",
+            "value": 9
+        },
+        {
+            "source": "www.google.com",
+            "target": "stackoverflow.com",
+            "value": 6
+        },
+        {
+            "source": "mail.google.com",
+            "target": "tomuss.univ-lyon1.fr",
+            "value": 6
+        },
+        {
+            "source": "mail.google.com",
+            "target": "sflix.to",
+            "value": 8
+        },
+        {
+            "source": "github.com",
+            "target": "www.deepl.com",
+            "value": 7
+        },
+        {
+            "source": "tomuss.univ-lyon1.fr",
+            "target": "www.deepl.com",
+            "value": 4
+        },
+        {
+            "source": "www.youtube.com",
+            "target": "tomuss.univ-lyon1.fr",
+            "value": 4
+        },
+        {
+            "source": "sflix.to",
+            "target": "www.google.fr",
+            "value": 8
+        },
+        {
+            "source": "www.airbnb.fr",
+            "target": "www.google.com",
+            "value": 7
+        },
+        {
+            "source": "www.google.com",
+            "target": "drive.google.com",
+            "value": 0
+        },
+        {
+            "source": "www.airbnb.fr",
+            "target": "fr.indeed.com",
+            "value": 9
+        },
+        {
+            "source": "www.linkedin.com",
+            "target": "perso.liris.cnrs.fr",
+            "value": 2
+        },
+        {
+            "source": "www.google.fr",
+            "target": "www.facebook.com",
+            "value": 6
+        },
+        {
+            "source": "perso.liris.cnrs.fr",
+            "target": "etu.univ-lyon1.fr",
+            "value": 3
+        },
+        {
+            "source": "etu.univ-lyon1.fr",
+            "target": "univ-lyon1.jobteaser.com",
+            "value": 3
+        },
+        {
+            "source": "www.google.com",
+            "target": "sflix.to",
+            "value": 7
+        },
+        {
+            "source": "www.blablacar.fr",
+            "target": "fr.indeed.com",
+            "value": 1
+        },
+        {
+            "source": "fr.indeed.com",
+            "target": "www.blablacar.fr",
+            "value": 8
+        },
+        {
+            "source": "etu.univ-lyon1.fr",
+            "target": "portal.univ-lyon1.fr",
+            "value": 1
+        },
+        {
+            "source": "sflix.to",
+            "target": "localhost",
+            "value": 4
+        },
+        {
+            "source": "www.beeple-crap.com",
+            "target": "github.com",
+            "value": 3
+        },
+        {
+            "source": "www.airbnb.fr",
+            "target": "www.beeple-crap.com",
+            "value": 3
+        },
+        {
+            "source": "univ-lyon1.jobteaser.com",
+            "target": "mail.google.com",
+            "value": 4
+        },
+        {
+            "source": "portal.univ-lyon1.fr",
+            "target": "drive.google.com",
+            "value": 8
+        },
+        {
+            "source": "www.leboncoin.fr",
+            "target": "accounts.google.com",
+            "value": 4
+        },
+        {
+            "source": "www.beeple-crap.com",
+            "target": "www.deepl.com",
+            "value": 3
+        },
+        {
+            "source": "www.flaticon.com",
+            "target": "www.linkedin.com",
+            "value": 0
+        },
+        {
+            "source": "fr.indeed.com",
+            "target": "www.blablacar.fr",
+            "value": 7
+        },
+        {
+            "source": "stackoverflow.com",
+            "target": "drive.google.com",
+            "value": 4
+        },
+        {
+            "source": "adelb.univ-lyon1.fr",
+            "target": "drive.google.com",
+            "value": 0
+        },
+        {
+            "source": "etu.univ-lyon1.fr",
+            "target": "www.airbnb.fr",
+            "value": 1
+        },
+        {
+            "source": "www.linkedin.com",
+            "target": "www.blablacar.fr",
+            "value": 9
+        },
+        {
+            "source": "github.com",
+            "target": "docs.google.com",
+            "value": 8
+        },
+        {
+            "source": "www.google.fr",
+            "target": "etu.univ-lyon1.fr",
+            "value": 0
+        },
+        {
+            "source": "drive.google.com",
+            "target": "www.airbnb.fr",
+            "value": 1
+        },
+        {
+            "source": "perso.liris.cnrs.fr",
+            "target": "github.com",
+            "value": 3
+        },
+        {
+            "source": "www.google.com",
+            "target": "docs.google.com",
+            "value": 1
+        },
+        {
+            "source": "www.google.com",
+            "target": "portal.univ-lyon1.fr",
+            "value": 4
+        },
+        {
+            "source": "univ-lyon1.jobteaser.com",
+            "target": "accounts.google.com",
+            "value": 1
+        }
+    ]
+}
