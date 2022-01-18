@@ -493,9 +493,9 @@ export class GraphChartComponent {
     .style("z-index", "100")
     .style("visibility", "hidden")
     .style("padding", "6px")
-    .style("background", "rgba(0,0,0,0.6)")
+    .style("background", "#fff")
     .style("border-radius", "5px")
-    .style("color", "#fff")
+    .style("color", "#000")
     .text("a simple tooltip");
 
     console.log(graph);
@@ -582,8 +582,8 @@ export class GraphChartComponent {
     })
     .on("mousemove", (event: any, d: any) => {
       tooltip
-        .style("top", (event.pageY - 10) + "px")
-        .style("left", (event.pageX + 10) + "px");
+        .style("top", (event.pageY + 20) + "px")
+        .style("left", (event.pageX + 30) + "px");
     })
     .on('mouseout', (event: any, d: any) => {
 

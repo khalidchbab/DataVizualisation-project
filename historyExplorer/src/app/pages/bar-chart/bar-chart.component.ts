@@ -226,8 +226,8 @@ export class BarChartComponent {
           .duration(200)
           .style('opacity', .9);
         tootltip.html('Website : ' + d[0] + '<br/>' + 'Visited : ' + d[1])
-          .style('left', (event.pageX + 30) + 'px')
-          .style('top', (event.pageY + 50) + 'px');
+          .style('left', (event.pageX + 20) + 'px')
+          .style('top', (event.pageY + 30) + 'px');
       }).on('mouseout', (event: any, d: any) => {
         tootltip.transition()
           .duration(500)
