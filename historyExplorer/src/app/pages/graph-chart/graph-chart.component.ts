@@ -173,7 +173,7 @@ export class GraphChartComponent {
   }
 
   determineImage(website:string){
-    let weHave = ["google","youtube","airbnb","beeple","blabla","claroline","cnrs","cpanel","deepl","facebook","flaticone","jobteaser","welcometothejungle","instagram",]
+    let weHave = ["google","youtube","linkedin","airbnb","beeple","blabla","claroline","cnrs","cpanel","deepl","facebook","flaticone","jobteaser","welcometothejungle","instagram",]
     let parts  = website.split(".")
     switch (parts[0]) {
       case 'docs':
@@ -501,11 +501,11 @@ export class GraphChartComponent {
     console.log(graph);
     
   this.simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().distance(d => 100).id(function (d: any) {
+    .force("link", d3.forceLink().distance(d => 180).id(function (d: any) {
       return d.id;
     }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(this.width / 2, this.height / 2));
+    .force("charge", d3.forceManyBody().strength(-10))
+    .force("center", d3.forceCenter(this.width / 2, this.height / 3));
   // console.log(graph);
 
   var link = this.svg.append("g")
