@@ -247,10 +247,10 @@ export class PieChartComponent {
       .style("position", "absolute")
       .style("z-index", "100")
       .style("visibility", "hidden")
-      .style("padding", "15px")
-      .style("background", "rgba(0,0,0,0.6)")
+      .style("padding", "10px")
+      .style("background", "#fff")
       .style("border-radius", "5px")
-      .style("color", "#fff")
+      .style("color", "#000")
       .text("a simple tooltip");
 
     var slice = this.svg.select(".slices").selectAll("path.slice")
@@ -273,8 +273,8 @@ export class PieChartComponent {
       })
       .on("mousemove", (event: any, d: any) => {
         tooltip
-          .style("top", (event.pageY - 10) + "px")
-          .style("left", (event.pageX + 10) + "px");
+          .style("top", (event.pageY + 20) + "px")
+          .style("left", (event.pageX + 30) + "px");
       })
       .on('mouseout', (event: any, d: any) => {
         tooltip.style('visibility', 'hidden')

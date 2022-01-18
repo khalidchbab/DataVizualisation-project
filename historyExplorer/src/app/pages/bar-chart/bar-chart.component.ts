@@ -226,8 +226,8 @@ export class BarChartComponent {
           .duration(200)
           .style('opacity', .9);
         tootltip.html('Website : ' + d[0] + '<br/>' + 'Visited : ' + d[1])
-          .style('left', (event.pageX + 30) + 'px')
-          .style('top', (event.pageY + 50) + 'px');
+          .style('left', (event.pageX + 20) + 'px')
+          .style('top', (event.pageY + 30) + 'px');
       }).on('mouseout', (event: any, d: any) => {
         tootltip.transition()
           .duration(500)
@@ -257,6 +257,24 @@ export class BarChartComponent {
         return yScale(d[1])
       })
 
+      this.svg.append("text")
+      .attr("class", "x label")
+      .attr("text-anchor", "end")
+      .attr("x", this.width + 110 )
+      .attr("y", this.height)
+      .text("Visited websites")
+      // .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("fill", "white");
+
+      this.svg.append("text")
+      .attr("class", "y label")
+      .attr("text-anchor", "end")
+      .attr("y", -(this.height/10) + 10)
+      .attr("x", this.width/10 - 15)
+      .attr("dy", ".75em")
+      // .attr("transform", "rotate(-20)")
+      .style("fill", "white")
+      .text("Number of visits");
 
 
   }

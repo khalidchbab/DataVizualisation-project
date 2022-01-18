@@ -175,7 +175,7 @@ export class GraphChartComponent {
   }
 
   determineImage(website:string){
-    let weHave = ["google","youtube","airbnb","beeple","blabla","claroline","cnrs","cpanel","deepl","facebook","flaticone","jobteaser","welcometothejungle","instagram",]
+    let weHave = ["google","youtube","linkedin","airbnb","beeple","blabla","claroline","cnrs","cpanel","deepl","facebook","flaticone","jobteaser","welcometothejungle","instagram",]
     let parts  = website.split(".")
     switch (parts[0]) {
       case 'docs':
@@ -495,19 +495,19 @@ export class GraphChartComponent {
     .style("z-index", "100")
     .style("visibility", "hidden")
     .style("padding", "6px")
-    .style("background", "rgba(0,0,0,0.6)")
+    .style("background", "#fff")
     .style("border-radius", "5px")
-    .style("color", "#fff")
+    .style("color", "#000")
     .text("a simple tooltip");
 
     console.log(graph);
     
   this.simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().distance(d => 100).id(function (d: any) {
+    .force("link", d3.forceLink().distance(d => 180).id(function (d: any) {
       return d.id;
     }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(this.width / 2, this.height / 2));
+    .force("charge", d3.forceManyBody().strength(-10))
+    .force("center", d3.forceCenter(this.width / 2, this.height / 3));
   // console.log(graph);
 
   var link = this.svg.append("g")
@@ -584,8 +584,8 @@ export class GraphChartComponent {
     })
     .on("mousemove", (event: any, d: any) => {
       tooltip
-        .style("top", (event.pageY - 10) + "px")
-        .style("left", (event.pageX + 10) + "px");
+        .style("top", (event.pageY + 20) + "px")
+        .style("left", (event.pageX + 30) + "px");
     })
     .on('mouseout', (event: any, d: any) => {
 

@@ -369,6 +369,83 @@ export class DayChartComponent implements OnInit {
       .style("max-width", 400)
       .text("This graph shows us the correleation between time of the day and intensity of activities of the user");
 
+    ///////////////////////////////// Adding legends  //////////////////////////////// 
+
+    let  days = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"],
+    times = d3.range(24),
+    gridSize = Math.floor(this.width / times.length) ; 
+    // heightSize = gridSize * days.length ; 
+
+    let maxData : any ;
+    maxData = d3.max(data, (d: any) => {
+      return d.value;
+    })
+    
+    console.log('Daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaay Chart');
+    
+    console.log(typeof(maxData));
+    
+    var colorScale = d3.scaleLinear<string>()
+    .domain([0, maxData/2 , maxData])
+    // .range(color);
+    .range(["#ffffcc", "#cd5332", "#800026"])
+
+    var countScale = d3.scaleLinear()
+    .domain([0, maxData])
+    .range([0, this.width]),
+    numStops = 3, 
+    countPoint = [0, maxData/2 , maxData];
+
+    this.svg.append("defs")
+    .append("linearGradient")
+    .attr("id", "legend-traffic")
+    .attr("x1", "0%").attr("y1", "0%")
+    .attr("x2", "100%").attr("y2", "0%")
+    .selectAll("stop") 
+    .data(d3.range(numStops))                
+    .enter().append("stop") 
+        .attr("offset", (d: any,i: any) => { 
+            return countScale(countPoint[i]) / this.width;
+        })   
+        .attr("stop-color", (d: any,i : any) =>{ 
+            // return myColor(i) ; 
+            return colorScale(countPoint[i]); 
+        });
+
+        var legendWidth = Math.min(this.width * 0.8, 400);
+        
+        var legendsvg = this.svg.append("g") // groupe principal
+            .attr("class", "legendWrapper")
+            .attr("transform", "translate(" + (this.width/2) + "," + (this.height + 60) + ")");
+
+            legendsvg.append("rect") // rectangle avec gradient
+            .attr("class", "legendRect")
+            .attr("x", -legendWidth/2)
+            .attr("y", 0)
+            .attr("width", legendWidth)
+            .attr("height", 10)
+            .style("fill", "url(#legend-traffic)");
+
+            legendsvg.append("text") // légende
+            .attr("class", "legendTitle")
+            .attr("x", 0)
+            .attr("y", -10)
+            .style('fill', 'white')
+            .style("text-anchor", "middle")
+            .text("Number of visits");
+
+            var xLegendScale = d3.scaleLinear() // scale pour x-axis
+          .range([-legendWidth / 2, legendWidth / 2])
+          .domain([ 0, maxData] );
+
+      legendsvg.append("g") // x axis
+          .attr("class", "axis")
+          .attr("x", 0)
+          .attr("y", 0)
+          .style('color', '#fff')
+          .attr("transform", "translate(0," + (10) + ")")
+          .call(d3.axisBottom(xLegendScale).ticks(5));
+
   }
 
   compareDecimals(a: any, b: any) {
