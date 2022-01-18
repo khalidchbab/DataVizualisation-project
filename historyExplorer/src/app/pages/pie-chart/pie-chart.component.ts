@@ -153,23 +153,11 @@ export class PieChartComponent {
   getDate(date: Date) {
     if (date == null)
       return null;
-    console.log(date)
     let fixNumber = (n: number) => (n > 9 ? n + "" : "0" + n);
     return `${fixNumber(date.getMonth() + 1)}/${fixNumber(date.getDate())}/${date.getFullYear()}`;
   }
 
 
-  // randomData() {
-  //   var labels = this.data.map((d: any) => d[0]);
-  //   // console.log(labels);
-
-  //   return labels.map(function (label: any) {
-  //     return {
-  //       Website: label,
-  //       Count: Math.floor(Math.random() * 1000)
-  //     }
-  //   });
-  // }
 
   reduceData(data: any) {
     let counts = data.reduce((p: any, c: any) => {
@@ -206,12 +194,6 @@ export class PieChartComponent {
   change(data: any) {
     this.svg.selectAll("*").remove()
 
-    // console.log('I\'m inside change function  ! ');
-    // console.log(data);
-
-    // data = this.randomData();
-
-    // console.log(data);
 
     this.svg.append("g")
       .attr("class", "slices");
@@ -220,7 +202,6 @@ export class PieChartComponent {
     this.svg.append("g")
       .attr("class", "lines");
 
-    // console.log(data.map((d: any) => d.Count.toString()));
 
     this.colors = d3.scaleOrdinal()
       .domain(data.map((d: any) => d[1].toString()))
@@ -259,7 +240,6 @@ export class PieChartComponent {
       }).enter()
       .insert("path")
       .style("fill", (d: any) => {
-        console.log(d)
         return this.colors(d.data[0]);
       })
       .attr("class", "slice")
@@ -282,7 +262,6 @@ export class PieChartComponent {
           .duration(50)
           .attr('opacity', '0.75')
       });
-    // console.log(slice)
     slice
       .transition().duration(1000)
       .attrTween("d", (d: any) => {

@@ -1,7 +1,7 @@
-<div id="divSlider">
-  <h2>Pie Chart of Websites</h2>
+<div id="divSlider" style="text-align: center;">
+  <h2>Donut Chart of Websites</h2>
   <form [formGroup]="form" (ngModelChange)="changed()" style="text-align: end;">
-    <div class="row">
+    <div class="row" style="text-align: center; margin-top:2rem">
       <div class="col-12">
         <mat-form-field appearance="fill">
           <mat-label>Enter a date range</mat-label>
@@ -15,7 +15,7 @@
       </div>
       <div class="col-12">
         <mat-form-field appearance="fill" style="display: none;">
-          <mat-select formControlName="person" >
+          <mat-select formControlName="person">
             <mat-option [value]="item" *ngFor="let item of options">{{item}}</mat-option>
           </mat-select>
           <mat-label>
@@ -25,9 +25,8 @@
       </div>
     </div>
   </form>
-  <figure id="pie"></figure>
-  <div class="tootltipEmp"></div>
+  <div class="row" style="text-align: center;">
+    <figure id="pie"></figure>
+    <div class="tootltipEmp"></div>
+  </div>
 </div>
-
-
-

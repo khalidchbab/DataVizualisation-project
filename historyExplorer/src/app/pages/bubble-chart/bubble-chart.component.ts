@@ -139,7 +139,6 @@ export class BubbleChartComponent {
 
     let rScale = d3.scaleLinear().domain([0, data[0][1]])
       .range([20, 100]);
-    console.log(data[0][1]);
     
     this.xScale.domain([0, data[0][1]])
       .range([20, 500]);
@@ -148,9 +147,7 @@ export class BubbleChartComponent {
       ...item,
       id: index
     }));
-    console.log(this.data);
     let layout = this.buildSpiralLayout(data);
-    console.log(layout);
 
     const tootltip = d3.select(".tootltipEmp").append('div')
       .attr('class', 'tooltip')

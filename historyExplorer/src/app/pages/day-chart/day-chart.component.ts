@@ -351,14 +351,6 @@ export class DayChartComponent implements OnInit {
       .on("mouseout", mouseleave)
 
 
-    this.svg.append("text")
-      .attr("x", 0)
-      .attr("y", -50)
-      .attr("text-anchor", "left")
-      .style("font-size", "22px")
-      .style("fill","white")
-      .text("When Do I surf the internet ?");
-
     // Add subtitle to graph
     this.svg.append("text")
       .attr("x", 0)
