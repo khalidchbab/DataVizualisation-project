@@ -58,6 +58,8 @@ export class PieChartComponent {
   form: FormGroup;
   options: any = ["Adnane DR","Khalid CH",  "Khalid OUH"];
   filteredOptions: Observable < string[] > ;
+  max:Date = new Date("01/10/2022")
+  min:Date = new Date("10/13/2021")
 
   @Input() item:number = 0;
   ngOnChanges() {
@@ -71,8 +73,8 @@ export class PieChartComponent {
     private builder: FormBuilder) {
 
       this.form = builder.group({
-        start: builder.control(null),
-        end: builder.control(null),
+        start: builder.control(new Date("01/01/2022")),
+        end: builder.control(this.max),
         person: builder.control("Khalid CH")
       });
       this.filteredOptions = of (this.options);

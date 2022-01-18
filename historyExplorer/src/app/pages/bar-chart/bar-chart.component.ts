@@ -56,8 +56,8 @@ export class BarChartComponent {
     private adnaneData: PieChartService,
     private builder: FormBuilder) {
     this.form = builder.group({
-      start: builder.control(null),
-      end: builder.control(null),
+      start: builder.control(new Date("01/01/2022")),
+      end: builder.control(this.max),
       person: builder.control("Khalid CH")
     });
     this.filteredOptions = of (this.options);
@@ -65,7 +65,7 @@ export class BarChartComponent {
       .pipe(startWith(''), map((filterString: any) => this.filter(filterString)));
     this.dataService.getRealHistory().then((res: any[]) => {
       this.data = res
-      this.DynamicData = this.filterDate(this.data, "01/01/2021", "01/10/2022")
+      this.DynamicData = this.filterDate(this.data, "01/01/2022", "01/10/2022")
       this.DynamicData = this.reduceData(this.DynamicData);
       this.svg = d3.select("#bar")
         .append("svg")

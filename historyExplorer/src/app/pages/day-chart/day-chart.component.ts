@@ -103,8 +103,8 @@ export class DayChartComponent implements OnInit {
     private adnaneData: PieChartService,
     private builder: FormBuilder) {
       this.form = builder.group({
-        start: builder.control(null),
-        end: builder.control(null),
+        start: builder.control(new Date("01/01/2022")),
+        end: builder.control(this.max),
         person: builder.control("Khalid CH")
       });
   
