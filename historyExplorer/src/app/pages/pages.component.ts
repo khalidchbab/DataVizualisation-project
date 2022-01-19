@@ -18,6 +18,8 @@ export class PagesComponent {
   choose3: boolean = true
   charachterChoosen: boolean = false
 
+  dataInNumbers = [[55942,37,46,17],[84192,69,24,7],[40231,25,38,37]]
+  chiffre:any = [55942,37,46,17]
   constructor() {
 
   }
@@ -38,18 +40,21 @@ export class PagesComponent {
       this.choose1 = true
       this.charachterChoosen = true
       this.charachterId = id -1
+      this.chiffre = this.dataInNumbers[id-1]
     } else if (id == 2) {
       this.choose1 = false
       this.choose3 = false
       this.choose2 = true
       this.charachterChoosen = true
       this.charachterId = id -1
+      this.chiffre = this.dataInNumbers[id-1]
     } else {
       this.choose1 = false
       this.choose3 = true
       this.choose2 = false
       this.charachterChoosen = true
       this.charachterId = id -1
+      this.chiffre = this.dataInNumbers[id-1]
     }
   }
 
